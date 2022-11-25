@@ -1,1 +1,2 @@
-# graphics_final
+# Crepusculum
+Graphics final project
