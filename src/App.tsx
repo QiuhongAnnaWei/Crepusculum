@@ -12,7 +12,7 @@ function App() {
 					<directionalLight color="red" position={[0, 0, 5]} />
 					<mesh>
 						<boxGeometry args={[2, 2, 2]} />
-						<meshStandardMaterial />
+						<meshBasicMaterial color="black" wireframe={true} />
 					</mesh>
 					<Sky/>
 			</Canvas>
