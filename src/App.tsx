@@ -18,8 +18,6 @@ const Ground = () => {
 function App() {
 
 	const [seed, setSeed]: [number, any] = useState(Date.now())
-
-	// let positionArray: Vector3[] = [], grassArray: Vector3[] = []
 	
 	const [positionArray, setPositionArray]: [Vector3[], any] = useState([])
 	const [grassArray, setGrassArray]: [Vector3[], any] = useState([])
