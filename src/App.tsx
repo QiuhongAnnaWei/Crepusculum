@@ -4,6 +4,7 @@ import { Canvas } from '@react-three/fiber';
 import { OrbitControls, Sky } from '@react-three/drei';
 import { PlaneGeometry, Vector3 } from 'three';
 import BuildingBlocks from './components/BuildingBlocks'
+import GrassCell from './components/GrassCell'
 
 const Ground = () => {
 	return (
@@ -50,7 +51,7 @@ function App() {
 			<Canvas>
 				<OrbitControls/>
 					<ambientLight color="white" intensity={0.1} />
-					<directionalLight color="red" position={[0, 100, 5]} />
+					<directionalLight color="white" position={[0, 100, 5]} />
 					<Ground/>
 					{positionArray.map((position) => {
 						console.log(positionArray.length)
@@ -59,6 +60,12 @@ function App() {
 							buildingPosition={position}
 							seed={seed}
 						/>
+					})}
+					{grassArray.map((position) => {
+						console.log(grassArray.length)
+						
+						return <GrassCell 
+						grassPosition={position}/>
 					})}
 					<Sky/>
 			</Canvas>
