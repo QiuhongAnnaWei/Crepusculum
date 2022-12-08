@@ -30,7 +30,7 @@ function App() {
 		let tempPositionArray = [], tempGrassArray = []
 		for (let row = -WORLD_ROW_COUNT; row < WORLD_ROW_COUNT; row++) {
 			for (let col = -WORLD_COL_COUNT; col < WORLD_COL_COUNT; col++) {
-				if (Math.random() > 0.2) {
+				if (Math.random() > 0.4) {
 					tempPositionArray.push(new Vector3(col, 0, row))
 				} else {
 					tempGrassArray.push(new Vector3(col, 0, row))
@@ -51,7 +51,7 @@ function App() {
 			<Canvas>
 				<OrbitControls/>
 					<ambientLight color="white" intensity={0.1} />
-					<directionalLight color="white" position={[0, 100, 5]} />
+					<directionalLight color="white" position={[-100, 600, -100]} />
 					<Ground/>
 					{positionArray.map((position) => {
 						console.log(positionArray.length)

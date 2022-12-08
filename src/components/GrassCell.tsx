@@ -33,7 +33,7 @@ function GrassCell(props: GrassCellProps){
       rotation-x={-Math.PI/2}>
       <planeGeometry args={[1, 1]} />
       <meshStandardMaterial
-          displacementScale={0.2}
+          displacementScale={0.1}
           map={colorMap}
           displacementMap={displacementMap}
           normalMap={normalMap}
