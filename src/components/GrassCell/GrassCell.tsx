@@ -32,7 +32,7 @@ export const GrassCell = (props: GrassCellProps) => {
 			rotation-x={-Math.PI / 2}>
 			<planeGeometry args={[1, 1]} />
 			<meshStandardMaterial
-				displacementScale={0.1}
+				displacementScale={0}
 				map={colorMap}
 				displacementMap={displacementMap}
 				normalMap={normalMap}

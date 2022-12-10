@@ -21,6 +21,7 @@ export const Ground = () => {
 
 	return (
 		<mesh
+			position={[0, -0.8, 0]}
 			rotation-x={-Math.PI / 2}>
 			<planeGeometry args={[40, 22]} />
 			<meshStandardMaterial
