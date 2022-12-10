@@ -9,9 +9,6 @@ const WORLD_ROW_COUNT = 10
 const WORLD_COL_COUNT = 20
 
 function App() {
-
-	const [seed, setSeed]: [number, any] = useState(Date.now())
-
 	const [positionArray, setPositionArray]: [Vector3[], any] = useState([])
 	const [grassArray, setGrassArray]: [Vector3[], any] = useState([])
 	const [roadArray, setRoadArray]: [Vector3[], any] = useState([])
@@ -22,7 +19,7 @@ function App() {
 		for (let row = -WORLD_ROW_COUNT; row < WORLD_ROW_COUNT; row++) {
 			for (let col = -WORLD_COL_COUNT; col < WORLD_COL_COUNT; col++) {
 				// generating roads in straight lines
-				if (row % 4 == 0 || col % 7 == 0) {
+				if (row % 4 === 0 || col % 7 === 0) {
 					tempRoadArray.push(new Vector3(col, 0, row))
 				} else {
 					// generate building
