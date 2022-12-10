@@ -27,9 +27,10 @@ export const GrassCell = (props: GrassCellProps) => {
 
 	return (
 		<mesh
-			position={[grassPosition.x, 0, grassPosition.z]}
-			rotation-x={-Math.PI / 2}>
-			<planeGeometry args={[1, 1]} />
+			position={[grassPosition.x, 0.01, grassPosition.z]}
+			// rotation-x={-Math.PI / 2}
+			>
+			<boxGeometry args={[1, 0.02, 1]} />
 			<meshStandardMaterial
 				displacementScale={0}
 				map={colorMap}

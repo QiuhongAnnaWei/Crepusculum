@@ -25,7 +25,7 @@ export function BuildingBlocks(props: BuildingBlockProps) {
 		setHeight(generateHeight())
 	}, [])
 
-	// textures
+	// textures for building
 	const texture_type = Math.floor(Math.random() * 3);
 
 	const name =
@@ -77,18 +77,49 @@ export function BuildingBlocks(props: BuildingBlockProps) {
 	metalMap.wrapT = THREE.RepeatWrapping;
 	metalMap.repeat.set(repeatU, repeatV);
 
+
+	// textures for base
+	const name_base = (type: string) => `Asphalt019_1K_${type}.png`;
+
+	const [
+		colorMapBase,
+		displacementMapBase,
+		normalMapBase,
+		roughnessMapBase,
+	] = useLoader(TextureLoader, [
+		name_base("Color"),
+		name_base("Displacement"),
+		name_base("NormalDX"),
+		name_base("Roughness"),
+	]);
+
 	return (
-		<mesh
-			position={[buildingPosition.x, height / 2, buildingPosition.z]}>
-			<boxGeometry args={[0.7, height, 0.7]} />
+		<>
+			<mesh
+				position={[buildingPosition.x, height / 2 + 0.01, buildingPosition.z]}>
+				<boxGeometry args={[0.7, height, 0.7]} />
+				<meshStandardMaterial
+					displacementScale={0}
+					map={colorMap}
+					displacementMap={displacementMap}
+					normalMap={normalMap}
+					roughnessMap={roughnessMap}
+					metalnessMap={metalMap}
+				/>
+			</mesh>
+			<mesh
+			position={[buildingPosition.x, 0.01, buildingPosition.z]}
+			// rotation-x={-Math.PI / 2}
+			>
+			<boxGeometry args={[1, 0.02, 1]} />
 			<meshStandardMaterial
-				displacementScale={0}
-				map={colorMap}
-				displacementMap={displacementMap}
-				normalMap={normalMap}
-				roughnessMap={roughnessMap}
-				metalnessMap={metalMap}
-			/>
+					displacementScale={0}
+					map={colorMapBase}
+					displacementMap={displacementMapBase}
+					normalMap={normalMapBase}
+					roughnessMap={roughnessMapBase}
+				/>
 		</mesh>
+		</>
 	)
 }

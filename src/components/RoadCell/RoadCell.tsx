@@ -3,13 +3,15 @@ import { Vector3 } from 'three';
 import { TextureLoader } from "three/src/loaders/TextureLoader";
 
 interface RoadCellProps {
-	grassPosition: Vector3
+	roadPosition: Vector3
 }
 
 export const RoadCell = (props: RoadCellProps) => {
-	const { grassPosition } = props
+	const { roadPosition } = props
 
-	const name = (type: string) => `Asphalt019_1K_${type}.png`;
+	const name = 
+		(roadPosition.x % 7 === 0) ? (type: string) => `Road007_2K_${type}.png`
+		: (type: string) => `Road007_2K_${type}_rotated.png`
 
 	const [
 		colorMap,
@@ -25,7 +27,7 @@ export const RoadCell = (props: RoadCellProps) => {
 
 	return (
 		<mesh
-			position={[grassPosition.x, 0, grassPosition.z]}
+			position={[roadPosition.x, 0, roadPosition.z]}
 			rotation-x={-Math.PI / 2}>
 			<planeGeometry args={[1, 1]} />
 			<meshStandardMaterial

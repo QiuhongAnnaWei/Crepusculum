@@ -10,13 +10,13 @@ const WORLD_ROW_COUNT = 10
 const WORLD_COL_COUNT = 20
 
 function App() {
-	const [positionArray, setPositionArray]: [Vector3[], any] = useState([])
+	const [buildingArray, setBuildingArray]: [Vector3[], any] = useState([])
 	const [grassArray, setGrassArray]: [Vector3[], any] = useState([])
 	const [roadArray, setRoadArray]: [Vector3[], any] = useState([])
 
 	// function that decides which block is building/grass
 	const generateCity = () => {
-		let tempPositionArray = [], tempGrassArray = [], tempRoadArray = []
+		let tempbuildingArray = [], tempGrassArray = [], tempRoadArray = []
 		for (let row = -WORLD_ROW_COUNT; row < WORLD_ROW_COUNT; row++) {
 			for (let col = -WORLD_COL_COUNT; col < WORLD_COL_COUNT; col++) {
 				// generating roads in straight lines
@@ -25,7 +25,7 @@ function App() {
 				} else {
 					// generate building
 					if (Math.random() > 0.4) {
-						tempPositionArray.push(new Vector3(col, 0, row))
+						tempbuildingArray.push(new Vector3(col, 0, row))
 					} else {
 						// generate green space
 						tempGrassArray.push(new Vector3(col, 0, row))
@@ -34,7 +34,7 @@ function App() {
 
 			}
 		}
-		setPositionArray(tempPositionArray)
+		setBuildingArray(tempbuildingArray)
 		setGrassArray(tempGrassArray)
 		setRoadArray(tempRoadArray)
 	}
@@ -64,11 +64,11 @@ function App() {
 				</div>
 				<Canvas camera={{ fov: 80, position: [15, 6, 0] }}>
 					<OrbitControls />
-					<ambientLight color="white" intensity={0.1} />
+					<ambientLight color="white" intensity={0.3} />
 					<directionalLight color="white" position={[-50, 15, -50]} />
-					<directionalLight color="white" position={[50, 15, 50]} />
+					{/* <directionalLight color="white" position={[50, 15, 50]} /> */}
 					<Ground />
-					{positionArray.map((position) => {
+					{buildingArray.map((position) => {
 						return (
 							<BuildingBlocks
 								buildingPosition={position}
@@ -84,7 +84,7 @@ function App() {
 					{roadArray.map((position) => {
 						return (
 							<RoadCell
-								grassPosition={position} />
+								roadPosition={position} />
 						)
 					})}
 					<Sky />
