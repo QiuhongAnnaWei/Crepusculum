@@ -21,7 +21,7 @@ export const Ground = () => {
 		<mesh
 			position={[0, -0.8, 0]}
 			rotation-x={-Math.PI / 2}>
-			<planeGeometry args={[40, 22]} />
+			<planeGeometry args={[42, 22]} />
 			<meshStandardMaterial
 				map={colorMap}
 				displacementMap={displacementMap}
