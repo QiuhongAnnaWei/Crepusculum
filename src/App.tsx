@@ -43,7 +43,11 @@ function App() {
 	}, [])
 
 	return (
-		<div className="App">
+		<div className="threejs-wrapper">
+			<div className="heading-wrapper">
+				<div className="heading">crespeculum</div>
+				<div className="subtitle">a city generator</div>
+			</div>
 			<Canvas camera={{ fov: 80, position: [15, 6, 0] }}>
 				<OrbitControls />
 				<ambientLight color="white" intensity={0.1} />
