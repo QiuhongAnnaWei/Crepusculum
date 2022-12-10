@@ -44,7 +44,7 @@ function App() {
 
 	return (
 		<div className="App">
-			<Canvas>
+			<Canvas camera={{ fov: 80, position: [15, 6, 0] }}>
 				<OrbitControls />
 				<ambientLight color="white" intensity={0.1} />
 				<directionalLight color="white" position={[-50, 15, -50]} />
