@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react';
 import { Vector3 } from 'three';
 import './App.css';
 import { BuildingBlocks, GrassCell, Ground, RoadCell } from './components';
+import { generateProceduralMaps } from './Procedural';
 
 const WORLD_ROW_COUNT = 10
 const WORLD_COL_COUNT = 20
@@ -17,14 +18,22 @@ function App() {
 	// function that decides which block is building/grass
 	const generateCity = () => {
 		let tempbuildingArray = [], tempGrassArray = [], tempRoadArray = []
-		for (let row = -WORLD_ROW_COUNT; row < WORLD_ROW_COUNT; row++) {
-			for (let col = -WORLD_COL_COUNT; col < WORLD_COL_COUNT; col++) {
+
+		let proceduralMap: number[][] = new Array(WORLD_ROW_COUNT*2+1);
+		for (var i = 0; i < proceduralMap.length; i++){
+			proceduralMap[i] = new Array(WORLD_COL_COUNT*2+1)
+		}
+		generateProceduralMaps(proceduralMap, 15);
+
+		for (let row = -WORLD_ROW_COUNT; row <= WORLD_ROW_COUNT; row++) {
+			for (let col = -WORLD_COL_COUNT; col <= WORLD_COL_COUNT; col++) {
 				// generating roads in straight lines
 				if (row % 4 === 0 || col % 7 === 0) {
 					tempRoadArray.push(new Vector3(col, 0, row))
 				} else {
 					// generate building
-					if (Math.random() > 0.4) {
+					// if (Math.random() > 0.4) {
+					if (proceduralMap[row+WORLD_ROW_COUNT][col+WORLD_COL_COUNT] > 0.1) {
 						tempbuildingArray.push(new Vector3(col, 0, row))
 					} else {
 						// generate green space
