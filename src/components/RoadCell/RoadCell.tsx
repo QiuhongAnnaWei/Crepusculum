@@ -1,6 +1,5 @@
-import React, { useState } from 'react';
-import { PlaneGeometry, Vector3 } from 'three';
 import { useLoader } from "@react-three/fiber";
+import { Vector3 } from 'three';
 import { TextureLoader } from "three/src/loaders/TextureLoader";
 
 interface RoadCellProps {

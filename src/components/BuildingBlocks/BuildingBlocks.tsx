@@ -1,13 +1,11 @@
-import React, { useState } from 'react';
-import { PlaneGeometry, Vector3 } from 'three';
 import { useLoader } from "@react-three/fiber";
-import { TextureLoader } from "three/src/loaders/TextureLoader";
-import { useTexture } from '@react-three/drei';
+import { useEffect, useState } from 'react';
 import * as THREE from "three";
+import { Vector3 } from 'three';
+import { TextureLoader } from "three/src/loaders/TextureLoader";
 
 interface BuildingBlockProps {
 	buildingPosition: Vector3
-	seed: number
 }
 
 const minHeight = 1
@@ -17,13 +15,17 @@ const generateHeight = () => {
 	return Math.random() * (maxHeight - minHeight) + minHeight
 }
 
-
 export function BuildingBlocks(props: BuildingBlockProps) {
 
-	const { buildingPosition, seed } = props
-	const [height, setHeight]: [number, any] = useState(generateHeight());
+	const { buildingPosition } = props
+	const [height, setHeight]: [number, any] = useState(0);
 
-	//textures
+	// generate building height on component load
+	useEffect(() => {
+		setHeight(generateHeight())
+	}, [])
+
+	// textures
 	const texture_type = Math.floor(Math.random() * 3);
 
 	const name =
@@ -46,6 +48,7 @@ export function BuildingBlocks(props: BuildingBlockProps) {
 	]);
 
 	const repeatU = 0.7; const repeatV = height;
+
 	// const ColorMaps = useTexture([name("Color"), name("Color"), name("Color"),name("Color"),name("Color"),name("Color")])
 	// ColorMaps.map((texture, idx) => {
 	//   texture.wrapS = THREE.RepeatWrapping;
@@ -78,21 +81,7 @@ export function BuildingBlocks(props: BuildingBlockProps) {
 		<mesh
 			position={[buildingPosition.x, height / 2, buildingPosition.z]}>
 			<boxGeometry args={[0.7, height, 0.7]} />
-			{/* {ColorMaps.map((texture, idx) => (
-        <meshStandardMaterial
-          attach={`material-${idx}`}
-          displacementScale={0}
-          map={texture}
-          displacementMap={displacementMap}
-          normalMap={normalMap}
-          roughnessMap={roughnessMap}
-          metalnessMap={metalMap}
-          key={texture.id}
-        />
-      ))} */}
 			<meshStandardMaterial
-				// key={texture.id}
-				// attach={`material-${idx}`}
 				displacementScale={0}
 				map={colorMap}
 				displacementMap={displacementMap}

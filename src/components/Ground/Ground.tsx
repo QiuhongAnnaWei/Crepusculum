@@ -1,5 +1,3 @@
-import React, { useState } from 'react';
-import { PlaneGeometry, Vector3 } from 'three';
 import { useLoader } from "@react-three/fiber";
 import { TextureLoader } from "three/src/loaders/TextureLoader";
 

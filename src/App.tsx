@@ -1,9 +1,12 @@
-import React, { Component, useEffect, useState } from 'react';
-import './App.css';
-import { Canvas } from '@react-three/fiber';
 import { OrbitControls, Sky } from '@react-three/drei';
-import { PlaneGeometry, Vector3 } from 'three';
+import { Canvas } from '@react-three/fiber';
+import { useEffect, useState } from 'react';
+import { Vector3 } from 'three';
+import './App.css';
 import { BuildingBlocks, GrassCell, Ground, RoadCell } from './components';
+
+const WORLD_ROW_COUNT = 10
+const WORLD_COL_COUNT = 20
 
 function App() {
 
@@ -12,9 +15,6 @@ function App() {
 	const [positionArray, setPositionArray]: [Vector3[], any] = useState([])
 	const [grassArray, setGrassArray]: [Vector3[], any] = useState([])
 	const [roadArray, setRoadArray]: [Vector3[], any] = useState([])
-
-	const WORLD_ROW_COUNT = 10
-	const WORLD_COL_COUNT = 20
 
 	// function that decides which block is building/grass
 	const generateCity = () => {
@@ -43,7 +43,6 @@ function App() {
 
 	useEffect(() => {
 		generateCity()
-		console.log(positionArray)
 	}, [])
 
 	return (
@@ -55,21 +54,23 @@ function App() {
 				<directionalLight color="white" position={[50, 15, 50]} />
 				<Ground />
 				{positionArray.map((position) => {
-					console.log(positionArray.length)
-					return <BuildingBlocks
-						buildingPosition={position}
-						seed={seed}
-					/>
+					return (
+						<BuildingBlocks
+							buildingPosition={position}
+						/>
+					)
 				})}
 				{grassArray.map((position) => {
-					console.log(grassArray.length)
-					return <GrassCell
-						grassPosition={position} />
+					return (
+						<GrassCell
+							grassPosition={position} />
+					)
 				})}
 				{roadArray.map((position) => {
-					console.log(grassArray.length)
-					return <RoadCell
-						grassPosition={position} />
+					return (
+						<RoadCell
+							grassPosition={position} />
+					)
 				})}
 				<Sky />
 			</Canvas>
