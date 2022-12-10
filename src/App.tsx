@@ -1,3 +1,4 @@
+import { Button, ChakraProvider, Input } from '@chakra-ui/react';
 import { OrbitControls, Sky } from '@react-three/drei';
 import { Canvas } from '@react-three/fiber';
 import { useEffect, useState } from 'react';
@@ -43,39 +44,53 @@ function App() {
 	}, [])
 
 	return (
-		<div className="threejs-wrapper">
-			<div className="heading-wrapper">
-				<div className="heading">crespeculum</div>
-				<div className="subtitle">a city generator</div>
+		<ChakraProvider>
+			<div className="threejs-wrapper">
+				<div className="heading-wrapper">
+					<div className="heading">crespeculum</div>
+					<div className="subtitle">a city generator</div>
+				</div>
+				<div className="control-panel">
+					<div className="setting-individual">max height
+						<Input placeholder='extra small size' size='xs' width={50} marginLeft={2} />
+					</div>
+					<div className="setting-individual">min height
+						<Input placeholder='extra small size' size='xs' width={50} marginLeft={2} />
+					</div>
+					<Button variant="outline" size='xs' width="100%" marginTop={2}>
+						generate
+					</Button>
+
+				</div>
+				<Canvas camera={{ fov: 80, position: [15, 6, 0] }}>
+					<OrbitControls />
+					<ambientLight color="white" intensity={0.1} />
+					<directionalLight color="white" position={[-50, 15, -50]} />
+					<directionalLight color="white" position={[50, 15, 50]} />
+					<Ground />
+					{positionArray.map((position) => {
+						return (
+							<BuildingBlocks
+								buildingPosition={position}
+							/>
+						)
+					})}
+					{grassArray.map((position) => {
+						return (
+							<GrassCell
+								grassPosition={position} />
+						)
+					})}
+					{roadArray.map((position) => {
+						return (
+							<RoadCell
+								grassPosition={position} />
+						)
+					})}
+					<Sky />
+				</Canvas>
 			</div>
-			<Canvas camera={{ fov: 80, position: [15, 6, 0] }}>
-				<OrbitControls />
-				<ambientLight color="white" intensity={0.1} />
-				<directionalLight color="white" position={[-50, 15, -50]} />
-				<directionalLight color="white" position={[50, 15, 50]} />
-				<Ground />
-				{positionArray.map((position) => {
-					return (
-						<BuildingBlocks
-							buildingPosition={position}
-						/>
-					)
-				})}
-				{grassArray.map((position) => {
-					return (
-						<GrassCell
-							grassPosition={position} />
-					)
-				})}
-				{roadArray.map((position) => {
-					return (
-						<RoadCell
-							grassPosition={position} />
-					)
-				})}
-				<Sky />
-			</Canvas>
-		</div>
+		</ChakraProvider>
 	);
 }
 
