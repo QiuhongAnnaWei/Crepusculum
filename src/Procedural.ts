@@ -1,4 +1,4 @@
-import { Vector2, Vector3 } from 'three';
+import { Vector3 } from 'three';
 
 // class Perlin {
   // position: Vector2;
@@ -184,11 +184,17 @@ function normalizeArray(array: number[][]) {
     }
   }
   // Apply the function below to each array element (to generate a normalized value between 0 and 1)
-  return array.map((inner:number[]) => {
-    inner.map((value:number) =>{
-      return (value - minValue) / (maxValue - minValue);
-    })
-  });
+
+  for (var r = 0; r < array.length; r++){
+    for (var c = 0; c < array[0].length; c++){
+      array[r][c] = (array[r][c] - minValue) / (maxValue - minValue);
+    }
+  }
+  // array.map((inner:number[]) => {
+  //   inner.map((value:number) =>{
+  //     return (value - minValue) / (maxValue - minValue);
+  //   })
+  // });
 }
 
 
