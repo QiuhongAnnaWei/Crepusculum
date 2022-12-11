@@ -55,5 +55,5 @@
 	bottom: 20px;
 	width: 300px;
 	z-index: 1;
-
+	left: calc(50vw - (300px / 2));
 }

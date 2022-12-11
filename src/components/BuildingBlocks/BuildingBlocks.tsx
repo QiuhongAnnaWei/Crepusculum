@@ -1,7 +1,5 @@
-import { color } from "@chakra-ui/react";
 import { useLoader } from "@react-three/fiber";
 import { useState } from "react";
-// import { useEffect, useState } from 'react';
 import * as THREE from "three";
 import { Vector3 } from 'three';
 import { TextureLoader } from "three/src/loaders/TextureLoader";
@@ -17,16 +15,9 @@ const maxHeight = 10
 
 export function BuildingBlocks(props: BuildingBlockProps) {
 
-	const { buildingPosition, normalizedHeight, time } = props
-	// const [height, setHeight]: [number, any] = useState(0);
+	const { buildingPosition, normalizedHeight } = props
 
-	const [randomTextureNumber, setRandomTextureNumber]: [number, any] = useState(Math.random());
-
-
-	// // generate building height on component load
-	// useEffect(() => {
-	// 	setHeight(generateHeight())
-	// }, [])
+	const [randomTextureNumber]: [number, any] = useState(Math.random());
 
 	const actualHeight = normalizedHeight * (maxHeight - minHeight) + minHeight;
 
