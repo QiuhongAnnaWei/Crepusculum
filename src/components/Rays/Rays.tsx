@@ -1,85 +1,61 @@
 // https://onion2k.github.io/r3f-by-example/examples/effects/postprocessing-godrays/
 
-import { Mesh, BufferGeometry, Material, Vector3 } from 'three';
-import React, { useRef, Suspense, forwardRef, useEffect, useState } from "react";
-// import {useFrame} from '@react-three/fiber'
+import { useEffect, useRef, useState } from "react";
+import { Mesh, Vector3 } from 'three';
 import { EffectComposer, GodRays } from "@react-three/postprocessing";
-import { BlendFunction, Resizer, KernelSize } from "postprocessing";
+import { BlendFunction, KernelSize } from "postprocessing";
 
- 
-
-interface RaysProps{
-  currentTime: any
+interface RaysProps {
+	currentTime: any
 }
 
-
 export const Rays = (props: RaysProps) => {
-  const sunRef = useRef<Mesh>(null);
-  
-  const {currentTime} = props
+	const { currentTime } = props
 
-  // useFrame(({ clock }) => {
-  //   // const a = clock.getElapsedTime();
-  //   // const speed = 1;
-  //   // const period = 2*Math.PI/speed; 
-  //   // // 0-24 -> 0-period
-  //   // const factor = period / 24;
-  //   const a = 24;
-  //   sunRef.current!.position.y = Math.abs(Math.cos(Math.PI/24*a + Math.PI/2)) * 25; // * -8;
-  //   sunRef.current!.position.x = Math.sin(Math.PI/24*a+ 3*Math.PI/2) * 25;
-  //   sunRef.current!.position.z = Math.abs(Math.cos(Math.PI/24*a + Math.PI/2)) * 10;
-  // });
+	const sunRef = useRef<Mesh>(null);
 
-  function getPos(currentTime: any): Vector3{
-    // currentTime: [0, 24]
-    const y = Math.abs(Math.cos(Math.PI/24*currentTime + Math.PI/2)) * 25; // up
+	const [exposure, setExposure] = useState(0.5) // 0.3-0.8
+	const [sunColor, setSunColor] = useState("rgb(255, 200, 89)") // 150-255
 
-    const x = Math.sin(Math.PI/24*currentTime+ 3*Math.PI/2) * 35; // long
-    const z = Math.abs(Math.cos(Math.PI/24*currentTime + Math.PI/2)) * 10; //short
+	useEffect(() => {
+		setExposure(0.2 + (1 - Math.abs(currentTime - 12) / 12) * 0.5) // 0.3 - 0.8
+		const G = Math.round(150 + (1 - Math.abs(currentTime - 12) / 12) * 105)
+		setSunColor("rgb(255, " + G + ", 89)") // 160 - 255
+	}, [sunRef.current, currentTime]) // called when sunRef.current changes
 
-    return new Vector3(x, y, z);
-  }
+	function getPos(currentTime: any): Vector3 {
+		// currentTime: [0, 24]
+		const y = Math.abs(Math.cos(Math.PI / 24 * currentTime + Math.PI / 2)) * 25; // up
+		const x = Math.sin(Math.PI / 24 * currentTime + 3 * Math.PI / 2) * 70; // long
+		const z = Math.abs(Math.cos(Math.PI / 24 * currentTime + Math.PI / 2)) * 10; // short
+		return new Vector3(x, y, z);
+	}
 
-  const [density, setDensity] = useState(0.96)
-  const [exposure, setExposure] = useState(0.5) // 0.3-0.8
-  const [sunColor, setSunColor] = useState("rgb(255, 200, 89)") // 150-255
+	return (
+		<>
+			<mesh ref={sunRef!} position={getPos(currentTime)}>
+				<sphereGeometry args={[1, 36, 36]} />
+				<meshBasicMaterial color={sunColor} />
+			</mesh>
 
-  
-  useEffect(() => {
-    setDensity(0.95) // caused rerendering
-    setExposure(0.2+(1-Math.abs(currentTime-12)/12)*0.5) // 0.3-0.8
-    const G = 150+(1-Math.abs(currentTime-12)/12)*105
-    setSunColor("rgb(255,"+G+",89)") // 160-255
-  }, [sunRef.current, currentTime]) // called when sunRef.current changes
-
-
-  return (
-    <>
-      <mesh ref={sunRef!} position={getPos(currentTime)}>
-      <sphereGeometry args={[1, 36, 36]} />
-      {/* <meshBasicMaterial color={"#ff1919"} /> */}
-      <meshBasicMaterial color={sunColor} />
-
-      </mesh>
-
-      {sunRef.current && (
-        <EffectComposer multisampling={0}>
-          <GodRays
-            sun={sunRef.current!}
-            blendFunction={BlendFunction.SCREEN}
-            samples={30}
-            density={density}
-            decay={0.92}
-            weight={0.9}
-            exposure={exposure}
-            clampMax={1}
-            width={100}
-            height={100}
-            kernelSize={KernelSize.SMALL}
-            blur={1} 
-          />
-        </EffectComposer>
-      )}
-    </>
-  ); 
+			{sunRef.current && (
+				<EffectComposer multisampling={0}>
+					<GodRays
+						sun={sunRef.current}
+						blendFunction={BlendFunction.SCREEN}
+						samples={30}
+						density={0.96}
+						decay={0.92}
+						weight={0.9}
+						exposure={exposure}
+						clampMax={1}
+						width={100}
+						height={100}
+						kernelSize={KernelSize.SMALL}
+						blur={1}
+					/>
+				</EffectComposer>
+			)}
+		</>
+	);
 }
