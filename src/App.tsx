@@ -20,6 +20,14 @@ function App() {
 	const [grassArray, setGrassArray]: [Vector3[], any] = useState([])
 	const [roadArray, setRoadArray]: [Vector3[], any] = useState([])
 	const [carArray, setCarArray]: [Vector4[], any] = useState([])
+	const [time, setTime]: [number, any] = useState(0)
+
+	// MAKE IT SCALE BETTER DURING DAWN AND SUNSET
+	const getSkyParam = (currTime: number) => {
+		// mapping 0 - 12 to 0 - 1, and 12 - 24 to 1 - 0
+		// 0 is nighttime, 1 is daytime
+		return 1 - Math.abs(currTime - 12) / 12
+	}
 
 	// function that decides which block is building/grass
 	const generateCity = () => {
@@ -80,60 +88,64 @@ function App() {
 					</Button>
 				</div>
 				<div className="time-slider">
-					<TimeSlider />
+					<TimeSlider time={time} setTime={setTime} />
 				</div>
 
 				<div style={{ width: "100vw", height: "100vh" }}>
-				<Canvas camera={{ fov: 80, position: [15, 6, 0] }}>
-					<OrbitControls />
-					<ambientLight color="white" intensity={0.3} />
-					<directionalLight color="white" position={[-50, 15, -50]} />
-					<directionalLight color="white" position={[50, 15, 50]} />
-					<Ground />
-					{buildingArray.map((position) => {
-						return (
-							<BuildingBlocks
-								buildingPosition={position}
-								normalizedHeight={position.y}
-							/>
-						)
-					})}
-					{grassArray.map((position) => {
-						return (
-							<GrassCell
-								grassPosition={position} />
-						)
-					})}
-					{grassArray.map((position) => {
-						return (
-							<Tree
-								treePosition={position} />
-						)
-					})}
-					{roadArray.map((position) => {
-						return (
-							<RoadCell
-								roadPosition={position} />
-						)
-					})}
-					{carArray.map((position) => {
-						return (
-							<Car
-								cellPosition={new Vector3(position.x, position.y, position.z)} moveDirection={position.w} />
-						)
-					})}
-					<Sky/>
-		
-					<Suspense fallback={null}>
-					<Rays/>
+					<Suspense fallback={<div>hellllo</div>}>
+
+						<Canvas camera={{ fov: 80, position: [15, 6, 0] }}>
+
+							<OrbitControls />
+							<ambientLight color="white" intensity={0.3} />
+							<directionalLight color="white" position={[-50, 15, -50]} intensity={0} />
+							<directionalLight color="white" position={[50, 15, 50]} intensity={0} />
+							<Ground />
+							{buildingArray.map((position) => {
+								return (
+									<BuildingBlocks
+										buildingPosition={position}
+										normalizedHeight={position.y}
+									/>
+								)
+							})}
+							{grassArray.map((position) => {
+								return (
+									<GrassCell
+										grassPosition={position} />
+								)
+							})}
+							{grassArray.map((position) => {
+								return (
+									<Tree
+										treePosition={position} />
+								)
+							})}
+							{roadArray.map((position) => {
+								return (
+									<RoadCell
+										roadPosition={position} />
+								)
+							})}
+							{carArray.map((position) => {
+								return (
+									<Car
+										cellPosition={new Vector3(position.x, position.y, position.z)} moveDirection={position.w} />
+								)
+							})}
+							<Sky inclination={getSkyParam(time)} rayleigh={1} />
+							<Rays currentTime={time} />
+						</Canvas>
 					</Suspense>
 
-				</Canvas>
 				</div>
-
 			</div>
 		</ChakraProvider>
 	);
 }
 
 export default App;
+function abs(arg0: number) {
+	throw new Error('Function not implemented.');
+}
+

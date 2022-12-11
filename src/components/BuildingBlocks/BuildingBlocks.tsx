@@ -1,5 +1,6 @@
 import { color } from "@chakra-ui/react";
 import { useLoader } from "@react-three/fiber";
+// import { useEffect, useState } from 'react';
 import * as THREE from "three";
 import { Vector3 } from 'three';
 import { TextureLoader } from "three/src/loaders/TextureLoader";
@@ -15,13 +16,17 @@ const maxHeight = 10
 export function BuildingBlocks(props: BuildingBlockProps) {
 
 	const { buildingPosition, normalizedHeight } = props
+	// const [height, setHeight]: [number, any] = useState(0);
+
+	// // generate building height on component load
+	// useEffect(() => {
+	// 	setHeight(generateHeight())
+	// }, [])
 
 	const actualHeight = normalizedHeight * (maxHeight - minHeight) + minHeight;
 
 	// textures for building
-	const texture_type = 
-		(actualHeight < 3)? 2 : Math.floor(Math.random() * 2)
-
+	const texture_type = Math.floor(Math.random() * 3);
 
 	const name =
 		(texture_type === 0) ? (type: string) => `Facade006_2K_${type}.png` :
@@ -130,7 +135,9 @@ export function BuildingBlocks(props: BuildingBlockProps) {
 					metalnessMap={metalMap}
 				/>
 			</mesh>
-			<mesh position={[buildingPosition.x, 0.01, buildingPosition.z]}>
+			<mesh
+			position={[buildingPosition.x, 0.01, buildingPosition.z]}
+			>
 			<boxGeometry args={[1, 0.02, 1]} />
 			<meshStandardMaterial
 					displacementScale={0}
@@ -140,6 +147,6 @@ export function BuildingBlocks(props: BuildingBlockProps) {
 					roughnessMap={roughnessMapBase}
 				/>
 		</mesh>
-		</group>
+		</>
 	)
 }
