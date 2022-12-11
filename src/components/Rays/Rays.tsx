@@ -41,7 +41,7 @@ export const Rays = () => {
 
   useFrame(({ clock }) => {
     const a = clock.getElapsedTime();
-    console.log(Math.sin(a));
+    // console.log(Math.sin(a));
     // if(sunRef.current){
     sunRef.current!.position.x = Math.cos(0.5*a) * 10; // * -8;
     // sunRef.current!.position.y = Math.sin(0.5*a) * -8;
