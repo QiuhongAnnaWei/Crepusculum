@@ -34,7 +34,7 @@ export const Rays = (props: RaysProps) => {
     // currentTime: [0, 24]
     const y = Math.abs(Math.cos(Math.PI/24*currentTime + Math.PI/2)) * 25; // up
 
-    const x = Math.sin(Math.PI/24*currentTime+ 3*Math.PI/2) * 25; // long
+    const x = Math.sin(Math.PI/24*currentTime+ 3*Math.PI/2) * 35; // long
     const z = Math.abs(Math.cos(Math.PI/24*currentTime + Math.PI/2)) * 10; //short
 
     return new Vector3(x, y, z);
@@ -42,21 +42,24 @@ export const Rays = (props: RaysProps) => {
 
   const [density, setDensity] = useState(0.96)
   const [exposure, setExposure] = useState(0.5) // 0.3-0.8
-
+  const [sunColor, setSunColor] = useState("rgb(255, 200, 89)") // 150-255
 
   
   useEffect(() => {
     setDensity(0.95) // caused rerendering
     setExposure(0.2+(1-Math.abs(currentTime-12)/12)*0.5) // 0.3-0.8
+    const G = 150+(1-Math.abs(currentTime-12)/12)*105
+    setSunColor("rgb(255,"+G+",96)") // 160-255
   }, [sunRef.current, currentTime]) // called when sunRef.current changes
 
-
-
+  
   return (
     <>
       <mesh ref={sunRef!} position={getPos(currentTime)}>
       <sphereGeometry args={[1, 36, 36]} />
-      <meshBasicMaterial color={"#f5efd0"} />
+      {/* <meshBasicMaterial color={"#ff1919"} /> */}
+      <meshBasicMaterial color={sunColor} />
+
       </mesh>
 
       {sunRef.current && (
