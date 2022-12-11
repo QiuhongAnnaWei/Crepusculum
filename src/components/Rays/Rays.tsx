@@ -40,17 +40,23 @@ export const Rays = (props: RaysProps) => {
     return new Vector3(x, y, z);
   }
 
+  const [density, setDensity] = useState(0.96)
+  const [exposure, setExposure] = useState(0.5) // 0.3-0.8
+
+
+  
   useEffect(() => {
     setDensity(0.95) // caused rerendering
-  }, [sunRef.current]) // called when sunRef.current changes
+    setExposure(0.2+(1-Math.abs(currentTime-12)/12)*0.5) // 0.3-0.8
+  }, [sunRef.current, currentTime]) // called when sunRef.current changes
 
-  const [density, setDensity] = useState(0.96)
+
 
   return (
     <>
       <mesh ref={sunRef!} position={getPos(currentTime)}>
       <sphereGeometry args={[1, 36, 36]} />
-      <meshBasicMaterial color={"#fcae79"} />
+      <meshBasicMaterial color={"#f5efd0"} />
       </mesh>
 
       {sunRef.current && (
@@ -62,7 +68,7 @@ export const Rays = (props: RaysProps) => {
             density={density}
             decay={0.92}
             weight={0.9}
-            exposure={0.7}
+            exposure={exposure}
             clampMax={1}
             width={100}
             height={100}
