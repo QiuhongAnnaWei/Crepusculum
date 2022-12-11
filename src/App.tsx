@@ -9,6 +9,10 @@ import { generateProceduralMaps } from './Procedural';
 
 const WORLD_ROW_COUNT = 10
 const WORLD_COL_COUNT = 20
+const ROAD_ROW_FREQ = 4
+const ROAD_COL_FREQ = 7
+const PERLIN_FREQ = 8
+const BUILDING_THRESHOLD = 0.2
 
 function App() {
 	const [buildingArray, setBuildingArray]: [Vector3[], any] = useState([])
@@ -23,24 +27,23 @@ function App() {
 		for (var i = 0; i < proceduralMap.length; i++){
 			proceduralMap[i] = new Array(WORLD_COL_COUNT*2+1)
 		}
-		generateProceduralMaps(proceduralMap, 15);
+		generateProceduralMaps(proceduralMap, PERLIN_FREQ);
 
 		for (let row = -WORLD_ROW_COUNT; row <= WORLD_ROW_COUNT; row++) {
 			for (let col = -WORLD_COL_COUNT; col <= WORLD_COL_COUNT; col++) {
 				// generating roads in straight lines
-				if (row % 4 === 0 || col % 7 === 0) {
+				if (row % ROAD_ROW_FREQ === 0 || col % ROAD_COL_FREQ === 0) {
 					tempRoadArray.push(new Vector3(col, 0, row))
 				} else {
 					// generate building
 					// if (Math.random() > 0.4) {
-					if (proceduralMap[row+WORLD_ROW_COUNT][col+WORLD_COL_COUNT] > 0.25) {
-						tempbuildingArray.push(new Vector3(col, 0, row))
+					if (proceduralMap[row+WORLD_ROW_COUNT][col+WORLD_COL_COUNT] > BUILDING_THRESHOLD) {
+						tempbuildingArray.push(new Vector3(col, proceduralMap[row+WORLD_ROW_COUNT][col+WORLD_COL_COUNT], row))
 					} else {
 						// generate green space
 						tempGrassArray.push(new Vector3(col, 0, row))
 					}
 				}
-
 			}
 		}
 		setBuildingArray(tempbuildingArray)
@@ -81,6 +84,7 @@ function App() {
 						return (
 							<BuildingBlocks
 								buildingPosition={position}
+								normalizedHeight={position.y}
 							/>
 						)
 					})}

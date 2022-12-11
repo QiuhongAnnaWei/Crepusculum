@@ -1,29 +1,32 @@
 import { useLoader } from "@react-three/fiber";
-import { useEffect, useState } from 'react';
+// import { useEffect, useState } from 'react';
 import * as THREE from "three";
 import { Vector3 } from 'three';
 import { TextureLoader } from "three/src/loaders/TextureLoader";
 
 interface BuildingBlockProps {
 	buildingPosition: Vector3
+	normalizedHeight: number
 }
 
 const minHeight = 1
 const maxHeight = 10
 
-const generateHeight = () => {
-	return Math.random() * (maxHeight - minHeight) + minHeight
-}
+// const generateHeight = () => {
+// 	return Math.random() * (maxHeight - minHeight) + minHeight
+// }
 
 export function BuildingBlocks(props: BuildingBlockProps) {
 
-	const { buildingPosition } = props
-	const [height, setHeight]: [number, any] = useState(0);
+	const { buildingPosition, normalizedHeight } = props
+	// const [height, setHeight]: [number, any] = useState(0);
 
-	// generate building height on component load
-	useEffect(() => {
-		setHeight(generateHeight())
-	}, [])
+	// // generate building height on component load
+	// useEffect(() => {
+	// 	setHeight(generateHeight())
+	// }, [])
+
+	const actualHeight = normalizedHeight * (maxHeight - minHeight) + minHeight;
 
 	// textures for building
 	const texture_type = Math.floor(Math.random() * 3);
@@ -47,7 +50,7 @@ export function BuildingBlocks(props: BuildingBlockProps) {
 		name("Metalness")
 	]);
 
-	const repeatU = 0.7; const repeatV = height;
+	const repeatU = 0.7; const repeatV = actualHeight;
 
 	// const ColorMaps = useTexture([name("Color"), name("Color"), name("Color"),name("Color"),name("Color"),name("Color")])
 	// ColorMaps.map((texture, idx) => {
@@ -96,8 +99,8 @@ export function BuildingBlocks(props: BuildingBlockProps) {
 	return (
 		<>
 			<mesh
-				position={[buildingPosition.x, height / 2 + 0.01, buildingPosition.z]}>
-				<boxGeometry args={[0.7, height, 0.7]} />
+				position={[buildingPosition.x, actualHeight / 2 + 0.01, buildingPosition.z]}>
+				<boxGeometry args={[0.7, actualHeight, 0.7]} />
 				<meshStandardMaterial
 					displacementScale={0}
 					map={colorMap}
@@ -109,7 +112,6 @@ export function BuildingBlocks(props: BuildingBlockProps) {
 			</mesh>
 			<mesh
 			position={[buildingPosition.x, 0.01, buildingPosition.z]}
-			// rotation-x={-Math.PI / 2}
 			>
 			<boxGeometry args={[1, 0.02, 1]} />
 			<meshStandardMaterial

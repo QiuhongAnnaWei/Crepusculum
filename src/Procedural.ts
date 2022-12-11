@@ -1,14 +1,5 @@
 import { Vector3 } from 'three';
 
-// class Perlin {
-  // position: Vector2;
-  // buildingThreshold: number;
-
-  // constructor(x:number, y:number){
-  //   this.position = pos;
-  //   this.buildingThreshold = 0.6;
-  // }
-
 function dot2(vec: Vector3, x:number, y:number): number {
   return vec.x * x + vec.y * y
 }
@@ -190,11 +181,6 @@ function normalizeArray(array: number[][]) {
       array[r][c] = (array[r][c] - minValue) / (maxValue - minValue);
     }
   }
-  // array.map((inner:number[]) => {
-  //   inner.map((value:number) =>{
-  //     return (value - minValue) / (maxValue - minValue);
-  //   })
-  // });
 }
 
 
