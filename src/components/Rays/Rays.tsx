@@ -1,56 +1,44 @@
-import * as THREE from "three";
+// https://onion2k.github.io/r3f-by-example/examples/effects/postprocessing-godrays/
+
 import { Mesh, BufferGeometry, Material, Vector3 } from 'three';
 import React, { useRef, Suspense, forwardRef, useEffect, useState } from "react";
-// import { useFrame } from "react-three-fiber";
-import {useFrame} from '@react-three/fiber'
+// import {useFrame} from '@react-three/fiber'
 import { EffectComposer, GodRays } from "@react-three/postprocessing";
 import { BlendFunction, Resizer, KernelSize } from "postprocessing";
-// import "./styles.css";
 
-
-// const Sun = forwardRef(function Sun(props, forwardRef) {
-//   // useFrame(({ clock }) => {
-//   //   forwardRef!.current.position.x = Math.sin(clock.getElapsedTime()) * -8;
-//   //   forwardRef!.current.position.y = Math.cos(clock.getElapsedTime()) * -8;
-//   // });
-//   //  ref={forwardRef} 
-
-//   function getPos(): Vector3{
-//     return new Vector3(0,5,-15);
-//   }
-//   return (
-//     <mesh position={getPos()}>
-//       <sphereGeometry args={[1, 36, 36]} />
-//       <meshBasicMaterial color={"#fcae79"} />
-//     </mesh>
-//   );
-// });
  
 
+interface RaysProps{
+  currentTime: any
+}
 
-// interface RaysProps{
-//   sunRef: any
-// }
-// function getPos(): Vector3{
-//   return new Vector3(0,5,-15);
-// }
 
-export const Rays = () => {
+export const Rays = (props: RaysProps) => {
   const sunRef = useRef<Mesh>(null);
-  // const {sunRef} = props
+  
+  const {currentTime} = props
 
-  useFrame(({ clock }) => {
-    const a = clock.getElapsedTime();
-    console.log(Math.sin(a));
-    // if(sunRef.current){
-    sunRef.current!.position.x = Math.cos(0.5*a) * 10; // * -8;
-    // sunRef.current!.position.y = Math.sin(0.5*a) * -8;
-    // }
-    // if (sunRef.current!.position.z+cellPosition.z > 10 || ref.current!.position.z+cellPosition.z < -10) {
-    //   // console.log(ref.current!.position.z);
-    //   sunRef.current!.visible=false;
-    // }
-  });
+  // useFrame(({ clock }) => {
+  //   // const a = clock.getElapsedTime();
+  //   // const speed = 1;
+  //   // const period = 2*Math.PI/speed; 
+  //   // // 0-24 -> 0-period
+  //   // const factor = period / 24;
+  //   const a = 24;
+  //   sunRef.current!.position.y = Math.abs(Math.cos(Math.PI/24*a + Math.PI/2)) * 25; // * -8;
+  //   sunRef.current!.position.x = Math.sin(Math.PI/24*a+ 3*Math.PI/2) * 25;
+  //   sunRef.current!.position.z = Math.abs(Math.cos(Math.PI/24*a + Math.PI/2)) * 10;
+  // });
+
+  function getPos(currentTime: any): Vector3{
+    // currentTime: [0, 24]
+    const y = Math.abs(Math.cos(Math.PI/24*currentTime + Math.PI/2)) * 25; // up
+
+    const x = Math.sin(Math.PI/24*currentTime+ 3*Math.PI/2) * 25; // long
+    const z = Math.abs(Math.cos(Math.PI/24*currentTime + Math.PI/2)) * 10; //short
+
+    return new Vector3(x, y, z);
+  }
 
   useEffect(() => {
     setDensity(0.95) // caused rerendering
@@ -60,8 +48,7 @@ export const Rays = () => {
 
   return (
     <>
-      {/* <Sun ref={sunRef} /> */}
-      <mesh ref={sunRef!} position={[0,5,-15]}>
+      <mesh ref={sunRef!} position={getPos(currentTime)}>
       <sphereGeometry args={[1, 36, 36]} />
       <meshBasicMaterial color={"#fcae79"} />
       </mesh>
@@ -73,7 +60,7 @@ export const Rays = () => {
             blendFunction={BlendFunction.SCREEN}
             samples={30}
             density={density}
-            decay={0.9}
+            decay={0.92}
             weight={0.9}
             exposure={0.7}
             clampMax={1}
@@ -87,21 +74,3 @@ export const Rays = () => {
     </>
   ); 
 }
-
-// render(
-//   <Canvas
-//     style=
-//     camera=
-//     onCreated={({ gl }) => {
-//       gl.setClearColor(new THREE.Color("#000000"));
-//     }}
-//   >
-//     <pointLight position={[15, 15, 15]} intensity={1} />
-//     <Suspense fallback={null}>
-//       <Knot />
-//     </Suspense>
-//     <Effects />
-//   </Canvas>,
-//   document.querySelector("#root")
-// );
-

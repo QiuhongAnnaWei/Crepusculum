@@ -134,7 +134,7 @@ function App() {
 							})}
 							<Sky inclination={getSkyParam(time)} rayleigh={1} />
 
-							<Rays />
+							<Rays currentTime={time} />
 						</Canvas>
 					</Suspense>
 
