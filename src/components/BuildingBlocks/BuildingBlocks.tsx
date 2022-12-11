@@ -15,20 +15,23 @@ const maxHeight = 10
 
 export function BuildingBlocks(props: BuildingBlockProps) {
 
-	const { buildingPosition, normalizedHeight } = props
+	const { buildingPosition, normalizedHeight, time } = props
 
 	const [randomTextureNumber]: [number, any] = useState(Math.random());
 
 	const actualHeight = normalizedHeight * (maxHeight - minHeight) + minHeight;
 
 	// textures for building
-	const texture_type =
-		(actualHeight < 3) ? 2 : Math.floor(randomTextureNumber * 2);
+	const texture_type = (actualHeight < 3)? Math.floor(randomTextureNumber * 2)+2 : Math.floor(randomTextureNumber * 2);
 
 	const name =
-		(texture_type === 0) ? (type: string) => `Facade006_2K_${type}.png` :
-			(texture_type === 1) ? (type: string) => `Facade001_2K_${type}.png` :
-				(type: string) => `Facade018A_2K_${type}.png`;
+		(texture_type === 0) ? 
+			((time > 6 && time < 18) ? (type: string) => `Facade006_2K_${type}.png` : (type: string) => `Facade009_2K_${type}.png`) :// 009
+		(texture_type === 1) ? 
+			((time > 6 && time < 18) ? (type: string) => `Facade001_2K_${type}.png` : (type: string) => `Facade003_2K_${type}.png`): // 003
+		(texture_type === 2) ? 
+			((time > 6 && time < 18) ? (type: string) => `Facade018A_2K_${type}.png`: (type: string) => `Facade018B_2K_${type}.png`)://018B
+			((time > 6 && time < 18) ? (type: string) => `Facade020A_2K_${type}.png`: (type: string) => `Facade020B_2K_${type}.png`) //020B
 
 	const [
 		colorMap,
