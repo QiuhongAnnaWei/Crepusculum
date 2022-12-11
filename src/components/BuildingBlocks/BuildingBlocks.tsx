@@ -1,4 +1,5 @@
 import { useLoader } from "@react-three/fiber";
+import { useState } from "react";
 // import { useEffect, useState } from 'react';
 import * as THREE from "three";
 import { Vector3 } from 'three';
@@ -20,6 +21,7 @@ export function BuildingBlocks(props: BuildingBlockProps) {
 
 	const { buildingPosition, normalizedHeight } = props
 	// const [height, setHeight]: [number, any] = useState(0);
+	const [randomNumber, _]: [number, any] = useState(Math.random())
 
 	// // generate building height on component load
 	// useEffect(() => {
@@ -29,7 +31,7 @@ export function BuildingBlocks(props: BuildingBlockProps) {
 	const actualHeight = normalizedHeight * (maxHeight - minHeight) + minHeight;
 
 	// textures for building
-	const texture_type = Math.floor(Math.random() * 3);
+	const texture_type = Math.floor(randomNumber * 3);
 
 	const name =
 		(texture_type === 0) ? (type: string) => `Facade006_2K_${type}.png` :
@@ -111,17 +113,17 @@ export function BuildingBlocks(props: BuildingBlockProps) {
 				/>
 			</mesh>
 			<mesh
-			position={[buildingPosition.x, 0.01, buildingPosition.z]}
+				position={[buildingPosition.x, 0.01, buildingPosition.z]}
 			>
-			<boxGeometry args={[1, 0.02, 1]} />
-			<meshStandardMaterial
+				<boxGeometry args={[1, 0.02, 1]} />
+				<meshStandardMaterial
 					displacementScale={0}
 					map={colorMapBase}
 					displacementMap={displacementMapBase}
 					normalMap={normalMapBase}
 					roughnessMap={roughnessMapBase}
 				/>
-		</mesh>
+			</mesh>
 		</>
 	)
 }

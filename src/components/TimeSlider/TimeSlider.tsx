@@ -1,10 +1,17 @@
 import { Slider, SliderTrack, SliderFilledTrack, SliderThumb, Box } from "@chakra-ui/react";
 import { SunIcon } from '@chakra-ui/icons'
 
-export const TimeSlider = () => {
+interface TimerProps {
+	time: number,
+	setTime: (time: number) => void
+}
+
+export const TimeSlider = (props: TimerProps) => {
+
+	const { time, setTime } = props
 
 	return (
-		<Slider aria-label='slider-ex-4' defaultValue={30}>
+		<Slider aria-label='slider-ex-4' min={0} max={24} value={time} step={0.01} onChange={(e) => setTime(e)}>
 			<SliderTrack bg='red.100'>
 				<SliderFilledTrack bg='tomato' />
 			</SliderTrack>
