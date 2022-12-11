@@ -26,32 +26,31 @@ import { BlendFunction, Resizer, KernelSize } from "postprocessing";
 // });
  
 
-// useFrame(({ clock }) => {
-//   const a = clock.getElapsedTime();
-//   if(sunRef.current){
-//     sunRef.current!.position.x = Math.sin(a) * -8;
-//     sunRef.current!.position.y = Math.cos(a) * -8;
-//   }
-//   // if (sunRef.current!.position.z+cellPosition.z > 10 || ref.current!.position.z+cellPosition.z < -10) {
-//   //   // console.log(ref.current!.position.z);
-//   //   sunRef.current!.visible=false;
-//   // }
-// });
+
 
   
 // interface RaysProps{
 //   sunRef: any
 // }
-
-
-
-function getPos(): Vector3{
-  return new Vector3(0,5,-15);
-}
+// function getPos(): Vector3{
+//   return new Vector3(0,5,-15);
+// }
 
 export const Rays = () => {
   const sunRef = useRef<Mesh>(null);
   // const {sunRef} = props
+
+  useFrame(({ clock }) => {
+    const a = clock.getElapsedTime();
+    if(sunRef.current){
+      sunRef.current!.position.x = Math.sin(a) * -8;
+      sunRef.current!.position.y = Math.cos(a) * -8;
+    }
+    // if (sunRef.current!.position.z+cellPosition.z > 10 || ref.current!.position.z+cellPosition.z < -10) {
+    //   // console.log(ref.current!.position.z);
+    //   sunRef.current!.visible=false;
+    // }
+  });
 
   useEffect(() => {
     setDensity(0.95) // caused rerendering

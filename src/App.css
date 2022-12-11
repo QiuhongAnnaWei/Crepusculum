@@ -2,6 +2,7 @@
 	text-align: center;
 	height: 100vh;
 	width: 100vw;
+	position: relative;
 }
 
 .heading-wrapper {
@@ -47,4 +48,12 @@
 	display: flex;
 	align-items: center;
 	justify-content: center;
+}
+
+.time-slider {
+	position: absolute;
+	bottom: 20px;
+	width: 300px;
+	z-index: 1;
+
 }

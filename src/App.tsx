@@ -5,7 +5,7 @@ import React, { useEffect, useState, useRef, Suspense, forwardRef } from 'react'
 import { Vector3, Vector4 } from 'three';
 import { Mesh, BufferGeometry, Material } from 'three';
 import './App.css';
-import { BuildingBlocks, GrassCell, Ground, RoadCell, Tree, Car, Rays } from './components';
+import { BuildingBlocks, GrassCell, Ground, RoadCell, Tree, Car, Rays, TimeSlider } from './components';
 import { generateProceduralMaps } from './Procedural';
 
 const WORLD_ROW_COUNT = 10
@@ -25,15 +25,15 @@ function App() {
 	const generateCity = () => {
 		let tempbuildingArray = [], tempGrassArray = [], tempRoadArray = [], tempCarArray = []
 
-		let proceduralMap: number[][] = new Array(WORLD_ROW_COUNT*2+1);
-		for (var i = 0; i < proceduralMap.length; i++){
-			proceduralMap[i] = new Array(WORLD_COL_COUNT*2+1)
+		let proceduralMap: number[][] = new Array(WORLD_ROW_COUNT * 2 + 1);
+		for (var i = 0; i < proceduralMap.length; i++) {
+			proceduralMap[i] = new Array(WORLD_COL_COUNT * 2 + 1)
 		}
 		generateProceduralMaps(proceduralMap, PERLIN_FREQ);
 
 		for (let row = -WORLD_ROW_COUNT; row <= WORLD_ROW_COUNT; row++) {
 			for (let col = -WORLD_COL_COUNT; col <= WORLD_COL_COUNT; col++) {
-				if (col % ROAD_COL_FREQ === 0 && Math.random() > 0.85){
+				if (col % ROAD_COL_FREQ === 0 && Math.random() > 0.85) {
 					tempCarArray.push(new Vector4(col, 0, row, Math.floor(Math.random() * 2)));
 				}
 				// generating roads in straight lines
@@ -42,8 +42,8 @@ function App() {
 				} else {
 					// generate building
 					// if (Math.random() > 0.4) {
-					if (proceduralMap[row+WORLD_ROW_COUNT][col+WORLD_COL_COUNT] > BUILDING_THRESHOLD) {
-						tempbuildingArray.push(new Vector3(col, proceduralMap[row+WORLD_ROW_COUNT][col+WORLD_COL_COUNT], row))
+					if (proceduralMap[row + WORLD_ROW_COUNT][col + WORLD_COL_COUNT] > BUILDING_THRESHOLD) {
+						tempbuildingArray.push(new Vector3(col, proceduralMap[row + WORLD_ROW_COUNT][col + WORLD_COL_COUNT], row))
 					} else {
 						// generate green space
 						tempGrassArray.push(new Vector3(col, 0, row))
@@ -78,7 +78,9 @@ function App() {
 					<Button variant="outline" size='xs' width="100%" marginTop={2}>
 						generate
 					</Button>
-
+				</div>
+				<div className="time-slider">
+					<TimeSlider />
 				</div>
 
 				<div style={{ width: "100vw", height: "100vh" }}>
@@ -86,7 +88,7 @@ function App() {
 					<OrbitControls />
 					<ambientLight color="white" intensity={0.3} />
 					<directionalLight color="white" position={[-50, 15, -50]} />
-					{/* <directionalLight color="white" position={[50, 15, 50]} /> */}
+					<directionalLight color="white" position={[50, 15, 50]} />
 					<Ground />
 					{buildingArray.map((position) => {
 						return (
@@ -117,7 +119,7 @@ function App() {
 					{carArray.map((position) => {
 						return (
 							<Car
-								cellPosition={new Vector3(position.x, position.y, position.z)} moveDirection={position.w}/>
+								cellPosition={new Vector3(position.x, position.y, position.z)} moveDirection={position.w} />
 						)
 					})}
 					<Sky/>
