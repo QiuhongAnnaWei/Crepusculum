@@ -49,10 +49,10 @@ export const Rays = (props: RaysProps) => {
     setDensity(0.95) // caused rerendering
     setExposure(0.2+(1-Math.abs(currentTime-12)/12)*0.5) // 0.3-0.8
     const G = 150+(1-Math.abs(currentTime-12)/12)*105
-    setSunColor("rgb(255,"+G+",96)") // 160-255
+    setSunColor("rgb(255,"+G+",89)") // 160-255
   }, [sunRef.current, currentTime]) // called when sunRef.current changes
 
-  
+
   return (
     <>
       <mesh ref={sunRef!} position={getPos(currentTime)}>
