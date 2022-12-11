@@ -4,7 +4,7 @@ import { Canvas } from '@react-three/fiber';
 import { useEffect, useState } from 'react';
 import { Vector3 } from 'three';
 import './App.css';
-import { BuildingBlocks, GrassCell, Ground, RoadCell } from './components';
+import { BuildingBlocks, GrassCell, Ground, RoadCell, Tree } from './components';
 import { generateProceduralMaps } from './Procedural';
 
 const WORLD_ROW_COUNT = 10
@@ -92,6 +92,12 @@ function App() {
 						return (
 							<GrassCell
 								grassPosition={position} />
+						)
+					})}
+					{grassArray.map((position) => {
+						return (
+							<Tree
+								treePosition={position} />
 						)
 					})}
 					{roadArray.map((position) => {
