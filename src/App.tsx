@@ -1,15 +1,14 @@
 import { Button, ChakraProvider, Input } from '@chakra-ui/react';
 import { OrbitControls, Sky } from '@react-three/drei';
 import { Canvas } from '@react-three/fiber';
-import React, { useEffect, useState, useRef, Suspense, forwardRef } from 'react';
+import { Suspense, useEffect, useState } from 'react';
 import { Vector3, Vector4 } from 'three';
-import { Mesh, BufferGeometry, Material } from 'three';
 import './App.css';
-import { BuildingBlocks, GrassCell, Ground, RoadCell, Tree, Car, Rays, TimeSlider } from './components';
+import { BuildingBlocks, Car, GrassCell, Ground, Rays, RoadCell, TimeSlider, Tree } from './components';
 import { generateProceduralMaps } from './Procedural';
 
-const WORLD_ROW_COUNT = 10
-const WORLD_COL_COUNT = 20
+const WORLD_ROW_COUNT = 15
+const WORLD_COL_COUNT = 50
 const ROAD_ROW_FREQ = 4
 const ROAD_COL_FREQ = 7
 const PERLIN_FREQ = 8
