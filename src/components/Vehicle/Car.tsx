@@ -36,7 +36,6 @@ export const Car = (props: CarProps) => {
   useFrame(({ clock }) => {
     const a = clock.getElapsedTime();
     if (ref.current!.position.z+cellPosition.z > 10 || ref.current!.position.z+cellPosition.z < -10) {
-      // console.log(ref.current!.position.z);
       ref.current!.visible=false;
     }
     if (moveDirection === 0){
