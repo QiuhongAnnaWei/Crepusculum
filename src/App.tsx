@@ -1,10 +1,11 @@
 import { Button, ChakraProvider, Input } from '@chakra-ui/react';
 import { OrbitControls, Sky } from '@react-three/drei';
 import { Canvas } from '@react-three/fiber';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef, Suspense, forwardRef } from 'react';
 import { Vector3, Vector4 } from 'three';
+import { Mesh, BufferGeometry, Material } from 'three';
 import './App.css';
-import { BuildingBlocks, GrassCell, Ground, RoadCell, Tree, Car } from './components';
+import { BuildingBlocks, GrassCell, Ground, RoadCell, Tree, Car, Rays } from './components';
 import { generateProceduralMaps } from './Procedural';
 
 const WORLD_ROW_COUNT = 10
@@ -79,6 +80,8 @@ function App() {
 					</Button>
 
 				</div>
+
+				<div style={{ width: "100vw", height: "100vh" }}>
 				<Canvas camera={{ fov: 80, position: [15, 6, 0] }}>
 					<OrbitControls />
 					<ambientLight color="white" intensity={0.3} />
@@ -117,8 +120,15 @@ function App() {
 								cellPosition={new Vector3(position.x, position.y, position.z)} moveDirection={position.w}/>
 						)
 					})}
-					<Sky />
+					<Sky/>
+		
+					<Suspense fallback={null}>
+					<Rays/>
+					</Suspense>
+
 				</Canvas>
+				</div>
+
 			</div>
 		</ChakraProvider>
 	);

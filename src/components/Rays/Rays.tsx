@@ -1,6 +1,6 @@
 import * as THREE from "three";
 import { Mesh, BufferGeometry, Material, Vector3 } from 'three';
-import React, { useRef, Suspense, forwardRef } from "react";
+import React, { useRef, Suspense, forwardRef, useEffect, useState } from "react";
 import { useFrame } from "react-three-fiber";
 import { EffectComposer, GodRays } from "@react-three/postprocessing";
 import { BlendFunction, Resizer, KernelSize } from "postprocessing";
@@ -24,6 +24,26 @@ import { BlendFunction, Resizer, KernelSize } from "postprocessing";
 //     </mesh>
 //   );
 // });
+ 
+
+// useFrame(({ clock }) => {
+//   const a = clock.getElapsedTime();
+//   if(sunRef.current){
+//     sunRef.current!.position.x = Math.sin(a) * -8;
+//     sunRef.current!.position.y = Math.cos(a) * -8;
+//   }
+//   // if (sunRef.current!.position.z+cellPosition.z > 10 || ref.current!.position.z+cellPosition.z < -10) {
+//   //   // console.log(ref.current!.position.z);
+//   //   sunRef.current!.visible=false;
+//   // }
+// });
+
+  
+// interface RaysProps{
+//   sunRef: any
+// }
+
+
 
 function getPos(): Vector3{
   return new Vector3(0,5,-15);
@@ -31,6 +51,14 @@ function getPos(): Vector3{
 
 export const Rays = () => {
   const sunRef = useRef<Mesh>(null);
+  // const {sunRef} = props
+
+  useEffect(() => {
+    setDensity(0.95) // caused rerendering
+  }, [sunRef.current]) // called when sunRef.current changes
+
+  const [density, setDensity] = useState(0.96)
+
   return (
     <>
       {/* <Sun ref={sunRef} /> */}
@@ -42,10 +70,10 @@ export const Rays = () => {
       {sunRef.current && (
         <EffectComposer multisampling={0}>
           <GodRays
-            sun={sunRef!.current}
+            sun={sunRef.current!}
             blendFunction={BlendFunction.SCREEN}
             samples={30}
-            density={0.96}
+            density={density}
             decay={0.9}
             weight={0.9}
             exposure={0.7}
@@ -53,12 +81,12 @@ export const Rays = () => {
             width={100}
             height={100}
             kernelSize={KernelSize.SMALL}
-            blur={1}
+            blur={1} 
           />
         </EffectComposer>
       )}
     </>
-  );
+  ); 
 }
 
 // render(
