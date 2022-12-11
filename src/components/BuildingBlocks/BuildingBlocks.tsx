@@ -9,6 +9,7 @@ import { TextureLoader } from "three/src/loaders/TextureLoader";
 interface BuildingBlockProps {
 	buildingPosition: Vector3
 	normalizedHeight: number
+	time: number
 }
 
 const minHeight = 1
@@ -16,7 +17,7 @@ const maxHeight = 10
 
 export function BuildingBlocks(props: BuildingBlockProps) {
 
-	const { buildingPosition, normalizedHeight } = props
+	const { buildingPosition, normalizedHeight, time } = props
 	// const [height, setHeight]: [number, any] = useState(0);
 
 	const [randomTextureNumber, setRandomTextureNumber]: [number, any] = useState(Math.random());
@@ -30,7 +31,8 @@ export function BuildingBlocks(props: BuildingBlockProps) {
 	const actualHeight = normalizedHeight * (maxHeight - minHeight) + minHeight;
 
 	// textures for building
-	const texture_type = Math.floor(randomTextureNumber * 3);
+	const texture_type = 
+	(actualHeight < 3)? 2 : Math.floor(randomTextureNumber * 2);
 
 	const name =
 		(texture_type === 0) ? (type: string) => `Facade006_2K_${type}.png` :
