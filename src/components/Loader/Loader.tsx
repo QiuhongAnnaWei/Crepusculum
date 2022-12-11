@@ -1,7 +1,5 @@
-import { Progress } from "@chakra-ui/progress";
 import { Spinner } from "@chakra-ui/react";
-import { useEffect, useState } from "react";
-import './styles.css'
+import './styles.css';
 
 export const Loader = () => {
 
@@ -10,7 +8,7 @@ export const Loader = () => {
 			<div className="loader-background" />
 			<div className="loader-wrapper">
 				<Spinner marginBottom={5} />
-				<div className="heading">crespeculum</div>
+				<div className="heading">crepusculum</div>
 				<div className="subtitle">a city generator</div>
 			</div>
 		</>

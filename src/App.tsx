@@ -72,7 +72,7 @@ function App() {
 			<Suspense fallback={<Loader />}>
 				<div className="threejs-wrapper">
 					<div className="heading-wrapper">
-						<div className="heading">crespeculum</div>
+						<div className="heading">crepusculum</div>
 						<div className="subtitle">a city generator</div>
 					</div>
 					<div className="control-panel">
