@@ -106,6 +106,7 @@ function App() {
 									<BuildingBlocks
 										buildingPosition={position}
 										normalizedHeight={position.y}
+										time={time}
 									/>
 								)
 							})}
