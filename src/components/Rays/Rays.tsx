@@ -21,6 +21,7 @@ export const Rays = (props: RaysProps) => {
 		setExposure(0.2 + (1 - Math.abs(currentTime - 12) / 12) * 0.5) // 0.3 - 0.8
 		const G = Math.round(150 + (1 - Math.abs(currentTime - 12) / 12) * 105)
 		setSunColor("rgb(255, " + G + ", 89)") // 160 - 255
+		// eslint-disable-next-line
 	}, [sunRef.current, currentTime]) // called when sunRef.current changes
 
 	function getPos(currentTime: any): Vector3 {
