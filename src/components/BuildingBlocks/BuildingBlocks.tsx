@@ -15,7 +15,7 @@ const maxHeight = 10
 
 export function BuildingBlocks(props: BuildingBlockProps) {
 
-	const { buildingPosition, normalizedHeight } = props
+	const { buildingPosition, normalizedHeight, time } = props
 
 	const [randomTextureNumber]: [number, any] = useState(Math.random());
 
