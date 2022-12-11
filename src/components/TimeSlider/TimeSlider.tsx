@@ -12,8 +12,8 @@ export const TimeSlider = (props: TimerProps) => {
 
 	return (
 		<Slider aria-label='slider-ex-4' min={0} max={24} value={time} step={0.01} onChange={(e) => setTime(e)}>
-			<SliderTrack bg='red.100'>
-				<SliderFilledTrack bg='tomato' />
+			<SliderTrack bg='darkgray'>
+				<SliderFilledTrack bg='gray' />
 			</SliderTrack>
 			<SliderThumb boxSize={6}>
 				<Box color='tomato' as={SunIcon} />
