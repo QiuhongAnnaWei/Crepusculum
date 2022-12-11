@@ -1,7 +1,8 @@
 import * as THREE from "three";
 import { Mesh, BufferGeometry, Material, Vector3 } from 'three';
 import React, { useRef, Suspense, forwardRef, useEffect, useState } from "react";
-import { useFrame } from "react-three-fiber";
+// import { useFrame } from "react-three-fiber";
+import {useFrame} from '@react-three/fiber'
 import { EffectComposer, GodRays } from "@react-three/postprocessing";
 import { BlendFunction, Resizer, KernelSize } from "postprocessing";
 // import "./styles.css";
@@ -27,8 +28,6 @@ import { BlendFunction, Resizer, KernelSize } from "postprocessing";
  
 
 
-
-  
 // interface RaysProps{
 //   sunRef: any
 // }
@@ -42,10 +41,11 @@ export const Rays = () => {
 
   useFrame(({ clock }) => {
     const a = clock.getElapsedTime();
-    if(sunRef.current){
-      sunRef.current!.position.x = Math.sin(a) * -8;
-      sunRef.current!.position.y = Math.cos(a) * -8;
-    }
+    console.log(Math.sin(a));
+    // if(sunRef.current){
+    sunRef.current!.position.x = Math.cos(0.5*a) * 10; // * -8;
+    // sunRef.current!.position.y = Math.sin(0.5*a) * -8;
+    // }
     // if (sunRef.current!.position.z+cellPosition.z > 10 || ref.current!.position.z+cellPosition.z < -10) {
     //   // console.log(ref.current!.position.z);
     //   sunRef.current!.visible=false;
