@@ -125,7 +125,7 @@ function App() {
 					<Sky/>
 		
 					<Suspense fallback={null}>
-					<Rays/>
+					<Rays currentTime={19.5}/>
 					</Suspense>
 
 				</Canvas>
