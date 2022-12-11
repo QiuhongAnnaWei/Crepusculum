@@ -21,8 +21,7 @@ function App() {
 	const [carArray, setCarArray]: [Vector4[], any] = useState([])
 	const [time, setTime]: [number, any] = useState(0)
 
-	// MAKE IT SCALE BETTER DURING DAWN AND SUNSET
-	const getSkyParam = (currTime: number) => {
+	const getLightParam = (currTime: number) => {
 		// mapping 0 - 12 to 0 - 1, and 12 - 24 to 1 - 0
 		// 0 is nighttime, 1 is daytime
 		return 1 - Math.abs(currTime - 12) / 12
@@ -30,7 +29,7 @@ function App() {
 
 	// function that decides which block is building/grass
 	const generateCity = () => {
-		let tempbuildingArray = [], tempGrassArray = [], tempRoadArray = [], tempCarArray = []
+		let tempBuildingArray = [], tempGrassArray = [], tempRoadArray = [], tempCarArray = []
 
 		let proceduralMap: number[][] = new Array(WORLD_ROW_COUNT * 2 + 1);
 		for (var i = 0; i < proceduralMap.length; i++) {
@@ -50,7 +49,7 @@ function App() {
 					// generate building
 					// if (Math.random() > 0.4) {
 					if (proceduralMap[row + WORLD_ROW_COUNT][col + WORLD_COL_COUNT] > BUILDING_THRESHOLD) {
-						tempbuildingArray.push(new Vector3(col, proceduralMap[row + WORLD_ROW_COUNT][col + WORLD_COL_COUNT], row))
+						tempBuildingArray.push(new Vector3(col, proceduralMap[row + WORLD_ROW_COUNT][col + WORLD_COL_COUNT], row))
 					} else {
 						// generate green space
 						tempGrassArray.push(new Vector3(col, 0, row))
@@ -58,7 +57,7 @@ function App() {
 				}
 			}
 		}
-		setBuildingArray(tempbuildingArray)
+		setBuildingArray(tempBuildingArray)
 		setGrassArray(tempGrassArray)
 		setRoadArray(tempRoadArray)
 		setCarArray(tempCarArray)
@@ -92,13 +91,11 @@ function App() {
 
 				<div style={{ width: "100vw", height: "100vh" }}>
 					<Suspense fallback={<div>hellllo</div>}>
-
 						<Canvas camera={{ fov: 80, position: [15, 6, 0] }}>
-
 							<OrbitControls />
 							<ambientLight color="white" intensity={0.3} />
-							<directionalLight color="white" position={[-50, 15, -50]} intensity={0} />
-							<directionalLight color="white" position={[50, 15, 50]} intensity={0} />
+							<directionalLight color="white" position={[-50, 15, -50]} intensity={getLightParam(time)} />
+							<directionalLight color="white" position={[50, 15, 50]} intensity={getLightParam(time)} />
 							<Ground />
 							{buildingArray.map((position) => {
 								return (
@@ -110,14 +107,12 @@ function App() {
 							})}
 							{grassArray.map((position) => {
 								return (
-									<GrassCell
-										grassPosition={position} />
-								)
-							})}
-							{grassArray.map((position) => {
-								return (
-									<Tree
-										treePosition={position} />
+									<>
+										<GrassCell
+											grassPosition={position} />
+										<Tree
+											treePosition={position} />
+									</>
 								)
 							})}
 							{roadArray.map((position) => {
@@ -129,14 +124,14 @@ function App() {
 							{carArray.map((position) => {
 								return (
 									<Car
-										cellPosition={new Vector3(position.x, position.y, position.z)} moveDirection={position.w} />
+										cellPosition={new Vector3(position.x, position.y, position.z)}
+										moveDirection={position.w} />
 								)
 							})}
-							<Sky inclination={getSkyParam(time)} rayleigh={1} />
+							<Sky inclination={getLightParam(time)} rayleigh={1} />
 							<Rays currentTime={time} />
 						</Canvas>
 					</Suspense>
-
 				</div>
 			</div>
 		</ChakraProvider>
@@ -144,7 +139,3 @@ function App() {
 }
 
 export default App;
-function abs(arg0: number) {
-	throw new Error('Function not implemented.');
-}
-
