@@ -57,3 +57,7 @@
 	z-index: 1;
 	left: calc(50vw - (300px / 2));
 }
+
+body {
+	background-color: #1a202c !important;
+}
