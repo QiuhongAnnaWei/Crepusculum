@@ -147,6 +147,6 @@ export function BuildingBlocks(props: BuildingBlockProps) {
 					roughnessMap={roughnessMapBase}
 				/>
 		</mesh>
-		</>
+		</group>
 	)
 }
