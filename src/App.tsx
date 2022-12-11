@@ -2,9 +2,9 @@ import { Button, ChakraProvider, Input } from '@chakra-ui/react';
 import { OrbitControls, Sky } from '@react-three/drei';
 import { Canvas } from '@react-three/fiber';
 import { useEffect, useState } from 'react';
-import { Vector3 } from 'three';
+import { Vector3, Vector4 } from 'three';
 import './App.css';
-import { BuildingBlocks, GrassCell, Ground, RoadCell, Tree } from './components';
+import { BuildingBlocks, GrassCell, Ground, RoadCell, Tree, Car } from './components';
 import { generateProceduralMaps } from './Procedural';
 
 const WORLD_ROW_COUNT = 10
@@ -18,10 +18,11 @@ function App() {
 	const [buildingArray, setBuildingArray]: [Vector3[], any] = useState([])
 	const [grassArray, setGrassArray]: [Vector3[], any] = useState([])
 	const [roadArray, setRoadArray]: [Vector3[], any] = useState([])
+	const [carArray, setCarArray]: [Vector4[], any] = useState([])
 
 	// function that decides which block is building/grass
 	const generateCity = () => {
-		let tempbuildingArray = [], tempGrassArray = [], tempRoadArray = []
+		let tempbuildingArray = [], tempGrassArray = [], tempRoadArray = [], tempCarArray = []
 
 		let proceduralMap: number[][] = new Array(WORLD_ROW_COUNT*2+1);
 		for (var i = 0; i < proceduralMap.length; i++){
@@ -31,6 +32,9 @@ function App() {
 
 		for (let row = -WORLD_ROW_COUNT; row <= WORLD_ROW_COUNT; row++) {
 			for (let col = -WORLD_COL_COUNT; col <= WORLD_COL_COUNT; col++) {
+				if (col % ROAD_COL_FREQ === 0 && Math.random() > 0.85){
+					tempCarArray.push(new Vector4(col, 0, row, Math.floor(Math.random() * 2)));
+				}
 				// generating roads in straight lines
 				if (row % ROAD_ROW_FREQ === 0 || col % ROAD_COL_FREQ === 0) {
 					tempRoadArray.push(new Vector3(col, 0, row))
@@ -49,6 +53,7 @@ function App() {
 		setBuildingArray(tempbuildingArray)
 		setGrassArray(tempGrassArray)
 		setRoadArray(tempRoadArray)
+		setCarArray(tempCarArray)
 	}
 
 	useEffect(() => {
@@ -104,6 +109,12 @@ function App() {
 						return (
 							<RoadCell
 								roadPosition={position} />
+						)
+					})}
+					{carArray.map((position) => {
+						return (
+							<Car
+								cellPosition={new Vector3(position.x, position.y, position.z)} moveDirection={position.w}/>
 						)
 					})}
 					<Sky />
