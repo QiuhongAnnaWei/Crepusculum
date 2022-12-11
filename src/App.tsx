@@ -22,6 +22,7 @@ function App() {
 	const [carArray, setCarArray]: [Vector4[], any] = useState([])
 	const [time, setTime]: [number, any] = useState(0)
 
+	// MAKE IT SCALE BETTER DURING DAWN AND SUNSET
 	const getSkyParam = (currTime: number) => {
 		// mapping 0 - 12 to 0 - 1, and 12 - 24 to 1 - 0
 		// 0 is nighttime, 1 is daytime
@@ -97,8 +98,8 @@ function App() {
 
 							<OrbitControls />
 							<ambientLight color="white" intensity={0.3} />
-							<directionalLight color="white" position={[-50, 15, -50]} />
-							<directionalLight color="white" position={[50, 15, 50]} />
+							<directionalLight color="white" position={[-50, 15, -50]} intensity={0} />
+							<directionalLight color="white" position={[50, 15, 50]} intensity={0} />
 							<Ground />
 							{buildingArray.map((position) => {
 								return (
@@ -133,7 +134,6 @@ function App() {
 								)
 							})}
 							<Sky inclination={getSkyParam(time)} rayleigh={1} />
-
 							<Rays currentTime={time} />
 						</Canvas>
 					</Suspense>

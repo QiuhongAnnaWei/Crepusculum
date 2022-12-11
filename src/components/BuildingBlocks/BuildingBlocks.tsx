@@ -1,5 +1,5 @@
+import { color } from "@chakra-ui/react";
 import { useLoader } from "@react-three/fiber";
-import { useState } from "react";
 // import { useEffect, useState } from 'react';
 import * as THREE from "three";
 import { Vector3 } from 'three';
@@ -13,15 +13,10 @@ interface BuildingBlockProps {
 const minHeight = 1
 const maxHeight = 10
 
-// const generateHeight = () => {
-// 	return Math.random() * (maxHeight - minHeight) + minHeight
-// }
-
 export function BuildingBlocks(props: BuildingBlockProps) {
 
 	const { buildingPosition, normalizedHeight } = props
 	// const [height, setHeight]: [number, any] = useState(0);
-	const [randomNumber, _]: [number, any] = useState(Math.random())
 
 	// // generate building height on component load
 	// useEffect(() => {
@@ -31,7 +26,7 @@ export function BuildingBlocks(props: BuildingBlockProps) {
 	const actualHeight = normalizedHeight * (maxHeight - minHeight) + minHeight;
 
 	// textures for building
-	const texture_type = Math.floor(randomNumber * 3);
+	const texture_type = Math.floor(Math.random() * 3);
 
 	const name =
 		(texture_type === 0) ? (type: string) => `Facade006_2K_${type}.png` :
@@ -52,35 +47,28 @@ export function BuildingBlocks(props: BuildingBlockProps) {
 		name("Metalness")
 	]);
 
-	const repeatU = 0.7; const repeatV = actualHeight;
-
-	// const ColorMaps = useTexture([name("Color"), name("Color"), name("Color"),name("Color"),name("Color"),name("Color")])
-	// ColorMaps.map((texture, idx) => {
-	//   texture.wrapS = THREE.RepeatWrapping;
-	//   texture.wrapT = THREE.RepeatWrapping;
-	//   texture.repeat.set(repeatU, repeatV);
-	// })
-	// const displacementMaps = useTexture([name("Displacement"),name("Displacement"),name("Displacement"),name("Displacement"),name("Displacement"),name("Displacement")])
-	// const normalMaps = useTexture([ name("NormalDX"), name("NormalDX"), name("NormalDX"), name("NormalDX"), name("NormalDX"), name("NormalDX")])
-	// const RoughnessMaps = useTexture([name("Roughness"),name("Roughness"),name("Roughness"),name("Roughness"),name("Roughness"),name("Roughness")])
-	// const MetalnessMaps = useTexture([name("Metalness"),name("Metalness"),name("Metalness"),name("Metalness"),name("Metalness"),name("Metalness")])
-
+	const repeatU = 0.7; const repeatV = actualHeight/1.4; 
 
 	colorMap.wrapS = THREE.RepeatWrapping;
 	colorMap.wrapT = THREE.RepeatWrapping;
-	colorMap.repeat.set(repeatU, repeatV);
+	colorMap.repeat.x = repeatU;
+	colorMap.repeat.y = repeatV;
 	displacementMap.wrapS = THREE.RepeatWrapping;
 	displacementMap.wrapT = THREE.RepeatWrapping;
-	displacementMap.repeat.set(repeatU, repeatV);
+	displacementMap.repeat.x = repeatU;
+	displacementMap.repeat.y = repeatV;
 	normalMap.wrapS = THREE.RepeatWrapping;
 	normalMap.wrapT = THREE.RepeatWrapping;
-	normalMap.repeat.set(repeatU, repeatV);
+	normalMap.repeat.x = repeatU;
+	normalMap.repeat.y = repeatV;
 	roughnessMap.wrapS = THREE.RepeatWrapping;
 	roughnessMap.wrapT = THREE.RepeatWrapping;
-	roughnessMap.repeat.set(repeatU, repeatV);
+	roughnessMap.repeat.x = repeatU;
+	roughnessMap.repeat.y = repeatV;
 	metalMap.wrapS = THREE.RepeatWrapping;
 	metalMap.wrapT = THREE.RepeatWrapping;
-	metalMap.repeat.set(repeatU, repeatV);
+	metalMap.repeat.x = repeatU;
+	metalMap.repeat.y = repeatV;
 
 
 	// textures for base
@@ -99,11 +87,46 @@ export function BuildingBlocks(props: BuildingBlockProps) {
 	]);
 
 	return (
-		<>
-			<mesh
-				position={[buildingPosition.x, actualHeight / 2 + 0.01, buildingPosition.z]}>
+		<group>
+			<mesh position={[buildingPosition.x, actualHeight / 2 + 0.01, buildingPosition.z]}>
 				<boxGeometry args={[0.7, actualHeight, 0.7]} />
 				<meshStandardMaterial
+					attach="material-0"
+					displacementScale={0}
+					map={colorMap}
+					displacementMap={displacementMap}
+					normalMap={normalMap}
+					roughnessMap={roughnessMap}
+					metalnessMap={metalMap}
+				/>
+				<meshStandardMaterial
+					attach="material-1"
+					displacementScale={0}
+					map={colorMap}
+					displacementMap={displacementMap}
+					normalMap={normalMap}
+					roughnessMap={roughnessMap}
+					metalnessMap={metalMap}
+				/>
+				<meshStandardMaterial
+					attach="material-2"
+					color={0xffffff}
+				/>
+				<meshStandardMaterial
+					attach="material-3"
+					color={0xffffff}
+				/>
+				<meshStandardMaterial
+					attach="material-4"
+					displacementScale={0}
+					map={colorMap}
+					displacementMap={displacementMap}
+					normalMap={normalMap}
+					roughnessMap={roughnessMap}
+					metalnessMap={metalMap}
+				/>
+				<meshStandardMaterial
+					attach="material-5"	
 					displacementScale={0}
 					map={colorMap}
 					displacementMap={displacementMap}
@@ -113,17 +136,17 @@ export function BuildingBlocks(props: BuildingBlockProps) {
 				/>
 			</mesh>
 			<mesh
-				position={[buildingPosition.x, 0.01, buildingPosition.z]}
+			position={[buildingPosition.x, 0.01, buildingPosition.z]}
 			>
-				<boxGeometry args={[1, 0.02, 1]} />
-				<meshStandardMaterial
+			<boxGeometry args={[1, 0.02, 1]} />
+			<meshStandardMaterial
 					displacementScale={0}
 					map={colorMapBase}
 					displacementMap={displacementMapBase}
 					normalMap={normalMapBase}
 					roughnessMap={roughnessMapBase}
 				/>
-			</mesh>
-		</>
+		</mesh>
+		</group>
 	)
 }
