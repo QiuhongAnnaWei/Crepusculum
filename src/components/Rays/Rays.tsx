@@ -1,7 +1,7 @@
 // https://onion2k.github.io/r3f-by-example/examples/effects/postprocessing-godrays/
 
 import { useEffect, useRef, useState } from "react";
-import { Mesh, Vector3 } from 'three';
+import { Mesh, Vector3, Color } from 'three';
 import { EffectComposer, GodRays } from "@react-three/postprocessing";
 import { BlendFunction, KernelSize } from "postprocessing";
 
@@ -15,12 +15,13 @@ export const Rays = (props: RaysProps) => {
 	const sunRef = useRef<Mesh>(null);
 
 	const [exposure, setExposure] = useState(0.5) // 0.3-0.8
-	const [sunColor, setSunColor] = useState("rgb(255, 200, 89)") // 150-255
+	const [sunColor, setSunColor] = useState("rgb(255, 101, 60)") // 150-255
 
+	
 	useEffect(() => {
 		setExposure(0.2 + (1 - Math.abs(currentTime - 12) / 12) * 0.5) // 0.3 - 0.8
-		const G = Math.round(150 + (1 - Math.abs(currentTime - 12) / 12) * 105)
-		setSunColor("rgb(255, " + G + ", 89)") // 160 - 255
+		const G = Math.round(500 * (1 - Math.abs(currentTime - 12) / 12) -150);
+		setSunColor("rgb(255, " + G + ", 60)") // 160 - 255
 		// eslint-disable-next-line
 	}, [sunRef.current, currentTime]) // called when sunRef.current changes
 

@@ -2,7 +2,7 @@ import { Button, ChakraProvider, Input } from '@chakra-ui/react';
 import { OrbitControls, Sky, Stars } from '@react-three/drei';
 import { Canvas } from '@react-three/fiber';
 import { Suspense, useEffect, useState } from 'react';
-import { Vector3, Vector4 } from 'three';
+import { Vector3, Vector4, Color } from 'three';
 import './App.css';
 import { BuildingBlocks, Car, GrassCell, Loader, Rays, RoadCell, TimeSlider, Tree } from './components';
 import { generateProceduralMaps } from './Procedural';
@@ -84,13 +84,23 @@ function App() {
 		return 5/4 - currentTime / 24;
 	}
 
+	const getColor = (currentTime: number) => {
+		if (getLightParam(currentTime) > 0.7) {
+			return new Color(1, 1, 1);
+		}
+		const r = 255/255;
+		const g = (500 * getLightParam(currentTime)-150)/255;  // 101 - 200
+		const b = 60/255;
+		return new Color(r, g, b);
+	}
+
 	const BetterSky = () =>{
   	if (time > 5 && time < 19) {
 			return (
 				<>
 					<Rays currentTime={time} />
-					<directionalLight color="white" position={getPos(time)} intensity={getLightParam(time)} />
-					<Sky distance={450000} inclination={getLightParam(time)} azimuth={getAzimuth(time)} rayleigh={1} turbidity={10}/>
+					<directionalLight color={getColor(time)} position={getPos(time)} intensity={getLightParam(time)} />
+					<Sky distance={4500000} inclination={getLightParam(time)} azimuth={getAzimuth(time)} rayleigh={1} turbidity={10}/>
 				</>
 			)
 		} else {
@@ -161,8 +171,6 @@ function App() {
 								)
 							})}
 							<BetterSky />
-							{/* <Sky distance={450000} inclination={getLightParam(time)} azimuth={getAzimuth(time)} rayleigh={1} turbidity={10}/> */}
-							{/* <Rays currentTime={time} /> */}
 						</Canvas>
 					</div>
 				</div>
