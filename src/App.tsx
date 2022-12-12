@@ -4,7 +4,7 @@ import { Canvas } from '@react-three/fiber';
 import { Suspense, useEffect, useState } from 'react';
 import { Vector3, Vector4 } from 'three';
 import './App.css';
-import { BuildingBlocks, Car, GrassCell, Ground, Loader, Rays, RoadCell, TimeSlider, Tree } from './components';
+import { BuildingBlocks, Car, GrassCell, Loader, Rays, RoadCell, TimeSlider, Tree } from './components';
 import { generateProceduralMaps } from './Procedural';
 
 const WORLD_ROW_COUNT = 10
