@@ -21,12 +21,6 @@ function App() {
 	const [carArray, setCarArray]: [Vector4[], any] = useState([])
 	const [time, setTime]: [number, any] = useState(0)
 
-	const getLightParam = (currTime: number) => {
-		// mapping 0 - 12 to 0 - 1, and 12 - 24 to 1 - 0
-		// 0 is nighttime, 1 is daytime
-		return 1 - Math.abs(currTime - 12) / 12
-	}
-
 	// function that decides which block is building/grass
 	const generateCity = () => {
 		let tempBuildingArray = [], tempGrassArray = [], tempRoadArray = [], tempCarArray = []
@@ -66,6 +60,28 @@ function App() {
 		generateCity()
 	}, [])
 
+
+	// -- lighting functions ---
+	const getLightParam = (currTime: number) => {
+		// mapping 0 - 12 to 0 - 1, and 12 - 24 to 1 - 0
+		// 0 is nighttime, 1 is daytime
+		return 1 - Math.abs(currTime - 12) / 12
+	}
+
+	const getPos = (currentTime: any) => {
+		// currentTime: [0, 24]
+		const y = Math.abs(Math.cos(Math.PI / 24 * currentTime + Math.PI / 2)) * 25; // up
+		const x = Math.sin(Math.PI / 24 * currentTime + 3 * Math.PI / 2) * 70; // long
+		const z = Math.abs(Math.cos(Math.PI / 24 * currentTime + Math.PI / 2)) * 10; // short
+		return new Vector3(x, y, z);
+	}
+
+	const getAzimuth = (currentTime: any) =>{
+		// mapping 0 - 24 to 1 - 0.5
+		return 1 - currentTime / 48;
+	}
+
+
 	return (
 		<ChakraProvider>
 			<Suspense fallback={<Loader />}>
@@ -92,10 +108,10 @@ function App() {
 					<div style={{ width: "100vw", height: "100vh" }}>
 						<Canvas camera={{ fov: 80, position: [15, 6, 0] }}>
 							<OrbitControls />
-							<ambientLight color="white" intensity={0.3} />
-							<directionalLight color="white" position={[-50, 15, -50]} intensity={getLightParam(time)} />
-							<directionalLight color="white" position={[50, 15, 50]} intensity={getLightParam(time)} />
-							<Ground />
+							<ambientLight color="white" intensity={0.4} />
+							<directionalLight color="white" position={getPos(time)} intensity={getLightParam(time)} />
+							{/* <directionalLight color="white" position={[50, 15, 50]} intensity={getLightParam(time)} /> */}
+							{/* <Ground /> */}
 							{buildingArray.map((position) => {
 								return (
 									<BuildingBlocks
@@ -128,7 +144,7 @@ function App() {
 										moveDirection={position.w} />
 								)
 							})}
-							<Sky inclination={getLightParam(time)} rayleigh={1} />
+							<Sky distance={450000} inclination={getLightParam(time)} azimuth={getAzimuth(time)} rayleigh={1} turbidity={10}/>
 							<Rays currentTime={time} />
 						</Canvas>
 					</div>
