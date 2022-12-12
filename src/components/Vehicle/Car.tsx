@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Vector3, Group, Euler } from 'three';
 import { useFrame } from '@react-three/fiber'
 
@@ -41,7 +41,7 @@ const Glass = (props: GlassProps) => {
 export const Car = (props: CarProps) => {
   const ref = useRef<Group>(null);
   const {cellPosition, moveDirection} = props
-  const [colorType, setColorType] = useState(Math.floor(Math.random() * 3));
+  const [colorType, setColorType] = useState(0);
 
   useFrame(({ clock }) => {
     const a = clock.getElapsedTime();
@@ -70,7 +70,10 @@ export const Car = (props: CarProps) => {
   const color = 
     (colorType === 0)? 0xee4010 :
      (colorType === 1)? 0x225ae6 :0xa7abb5
-  setColorType(colorType);
+
+  useEffect(()=>{
+    setColorType(Math.floor(Math.random() * 3))
+  }, [])
 
   return(
     <group ref={ref} rotation={rotation}>
