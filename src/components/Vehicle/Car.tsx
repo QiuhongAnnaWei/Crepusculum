@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { Vector3, Group, Euler } from 'three';
 import { useFrame } from '@react-three/fiber'
 
@@ -24,6 +24,7 @@ const Wheel = (props: WheelProps) => {
 export const Car = (props: CarProps) => {
   const ref = useRef<Group>(null);
   const {cellPosition, moveDirection} = props
+  const [colorType, setColorType] = useState(Math.floor(Math.random() * 3));
 
   useFrame(({ clock }) => {
     const a = clock.getElapsedTime();
@@ -49,15 +50,19 @@ export const Car = (props: CarProps) => {
   const rotation = 
     (moveDirection === 0 || moveDirection === 1)? new Euler(0,0,0) : new Euler(0, Math.PI / 2, 0);
 
+  const color = 
+    (colorType === 0)? 0xee4010 :
+     (colorType === 1)? 0x225ae6 :0xa7abb5
+
   return(
     <group ref={ref} rotation={rotation}>
-      <mesh position={[0, 0.2+0.1/2+0.1, 0]} > 
-        <boxGeometry args={[0.2, 0.1, 0.4]}/>
-        <meshStandardMaterial color={0xee4010} />
+      <mesh position={[0, 0.2+0.1/2+0.05, 0]} > 
+        <boxGeometry args={[0.2, 0.15, 0.4]}/>
+        <meshStandardMaterial color={color} roughness={0.415} metalness={0.557} />
       </mesh>
-      <mesh position={[0, 0.2/2+0.1, 0]}>
+      <mesh position={[0, 0.2/2+0.05, 0]}>
         <boxGeometry args={[0.3, 0.2, 0.6]}/>
-        <meshStandardMaterial color={0xee4010} />
+        <meshStandardMaterial color={color} roughness={0.415} metalness={0.557}/>
       </mesh>
       <Wheel wheelPosition={new Vector3(0.15, 0.05, 0.15)}/>
       <Wheel wheelPosition={new Vector3(-0.15, 0.05, 0.15)}/>
