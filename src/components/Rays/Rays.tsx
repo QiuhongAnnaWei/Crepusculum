@@ -1,7 +1,7 @@
 // https://onion2k.github.io/r3f-by-example/examples/effects/postprocessing-godrays/
 
 import { useEffect, useRef, useState } from "react";
-import { Mesh, Vector3, Color } from 'three';
+import { Mesh, Vector3 } from 'three';
 import { EffectComposer, GodRays } from "@react-three/postprocessing";
 import { BlendFunction, KernelSize } from "postprocessing";
 
