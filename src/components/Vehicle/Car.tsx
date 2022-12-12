@@ -70,6 +70,7 @@ export const Car = (props: CarProps) => {
   const color = 
     (colorType === 0)? 0xee4010 :
      (colorType === 1)? 0x225ae6 :0xa7abb5
+  setColorType(colorType);
 
   return(
     <group ref={ref} rotation={rotation}>
