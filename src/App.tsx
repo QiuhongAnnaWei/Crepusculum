@@ -35,6 +35,8 @@ function App() {
 			for (let col = -WORLD_COL_COUNT; col <= WORLD_COL_COUNT; col++) {
 				if (col % ROAD_COL_FREQ === 0 && Math.random() > 0.85) {
 					tempCarArray.push(new Vector4(col, 0, row, Math.floor(Math.random() * 2)));
+				} else if (row % ROAD_ROW_FREQ === 0 && Math.random() > 0.85){
+					tempCarArray.push(new Vector4(col, 0, row, Math.floor(2+Math.random() * 2)));
 				}
 				// generating roads in straight lines
 				if (row % ROAD_ROW_FREQ === 0 || col % ROAD_COL_FREQ === 0) {

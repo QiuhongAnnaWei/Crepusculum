@@ -1,5 +1,5 @@
 import { useRef } from "react";
-import { Vector3, Group } from 'three';
+import { Vector3, Group, Euler } from 'three';
 import { useFrame } from '@react-three/fiber'
 
 interface WheelProps{
@@ -35,12 +35,23 @@ export const Car = (props: CarProps) => {
     else if (moveDirection === 1){
       ref.current!.position.x = cellPosition.x - 0.2;
       ref.current!.position.z = (cellPosition.z+a/2) % 10;
-    }
+    } 
+    else if (moveDirection === 2){
+      ref.current!.position.z = cellPosition.z - 0.2;
+      ref.current!.position.x = (cellPosition.x-a/2) % 40;
+    } 
+    else if (moveDirection === 3){
+      ref.current!.position.z = cellPosition.z + 0.2;
+      ref.current!.position.x = (cellPosition.x+a/2) % 40;
+    } 
   });
 
+  const rotation = 
+    (moveDirection === 0 || moveDirection === 1)? new Euler(0,0,0) : new Euler(0, Math.PI / 2, 0);
+
   return(
-    <group ref={ref}>
-      <mesh position={[0, 0.2+0.1/2+0.1, 0]} >
+    <group ref={ref} rotation={rotation}>
+      <mesh position={[0, 0.2+0.1/2+0.1, 0]} > 
         <boxGeometry args={[0.2, 0.1, 0.4]}/>
         <meshStandardMaterial color={0xee4010} />
       </mesh>
