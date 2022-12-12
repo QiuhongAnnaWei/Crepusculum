@@ -4,11 +4,11 @@ import { Canvas } from '@react-three/fiber';
 import { Suspense, useEffect, useState } from 'react';
 import { Vector3, Vector4 } from 'three';
 import './App.css';
-import { BuildingBlocks, Car, GrassCell, Ground, Rays, RoadCell, TimeSlider, Tree } from './components';
+import { BuildingBlocks, Car, GrassCell, Ground, Loader, Rays, RoadCell, TimeSlider, Tree } from './components';
 import { generateProceduralMaps } from './Procedural';
 
-const WORLD_ROW_COUNT = 15
-const WORLD_COL_COUNT = 50
+const WORLD_ROW_COUNT = 10
+const WORLD_COL_COUNT = 40
 const ROAD_ROW_FREQ = 4
 const ROAD_COL_FREQ = 7
 const PERLIN_FREQ = 8
@@ -68,28 +68,28 @@ function App() {
 
 	return (
 		<ChakraProvider>
-			<div className="threejs-wrapper">
-				<div className="heading-wrapper">
-					<div className="heading">crespeculum</div>
-					<div className="subtitle">a city generator</div>
-				</div>
-				<div className="control-panel">
-					<div className="setting-individual">max height
-						<Input placeholder='extra small size' size='xs' width={50} marginLeft={2} />
+			<Suspense fallback={<Loader />}>
+				<div className="threejs-wrapper">
+					<div className="heading-wrapper">
+						<div className="heading">crepusculum</div>
+						<div className="subtitle">a city generator</div>
 					</div>
-					<div className="setting-individual">min height
-						<Input placeholder='extra small size' size='xs' width={50} marginLeft={2} />
+					<div className="control-panel">
+						<div className="setting-individual">max height
+							<Input placeholder='10' size='xs' width={50} marginLeft={2} />
+						</div>
+						<div className="setting-individual">min height
+							<Input placeholder='2' size='xs' width={50} marginLeft={2} />
+						</div>
+						<Button variant="outline" size='xs' width="100%" marginTop={2}>
+							generate
+						</Button>
 					</div>
-					<Button variant="outline" size='xs' width="100%" marginTop={2}>
-						generate
-					</Button>
-				</div>
-				<div className="time-slider">
-					<TimeSlider time={time} setTime={setTime} />
-				</div>
+					<div className="time-slider">
+						<TimeSlider time={time} setTime={setTime} />
+					</div>
 
-				<div style={{ width: "100vw", height: "100vh" }}>
-					<Suspense fallback={<div>hellllo</div>}>
+					<div style={{ width: "100vw", height: "100vh" }}>
 						<Canvas camera={{ fov: 80, position: [15, 6, 0] }}>
 							<OrbitControls />
 							<ambientLight color="white" intensity={0.3} />
@@ -131,9 +131,9 @@ function App() {
 							<Sky inclination={getLightParam(time)} rayleigh={1} />
 							<Rays currentTime={time} />
 						</Canvas>
-					</Suspense>
+					</div>
 				</div>
-			</div>
+			</Suspense>
 		</ChakraProvider>
 	);
 }
