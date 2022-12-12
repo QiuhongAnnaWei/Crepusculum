@@ -6,6 +6,12 @@ interface WheelProps{
   wheelPosition: Vector3
 }
 
+interface GlassProps{
+  glassPosition: Vector3
+  glassRotation: Euler
+}
+
+
 interface CarProps{
   cellPosition: Vector3
   moveDirection: number
@@ -17,6 +23,17 @@ const Wheel = (props: WheelProps) => {
     <mesh position={wheelPosition} rotation-z={Math.PI / 2}>
       <cylinderGeometry args={[0.05, 0.05, 0.07, 32]} />
       <meshStandardMaterial color={0x000000} />
+    </mesh>
+  )
+}
+
+const Glass = (props: GlassProps) => {
+  const {glassPosition, glassRotation} = props;
+
+  return (
+    <mesh position={glassPosition} rotation={glassRotation}>
+      <boxGeometry args={[0.12, 0.08, 0.01]}/>
+      <meshPhysicalMaterial roughness={0} metalness={0.1} reflectivity={0.8} opacity={0.5} color={0xa2d7f2}/>
     </mesh>
   )
 }
@@ -56,7 +73,7 @@ export const Car = (props: CarProps) => {
 
   return(
     <group ref={ref} rotation={rotation}>
-      <mesh position={[0, 0.2+0.1/2+0.05, 0]} > 
+      <mesh position={[0, 0.1/2+0.2+0.05, 0]} > 
         <boxGeometry args={[0.2, 0.15, 0.4]}/>
         <meshStandardMaterial color={color} roughness={0.415} metalness={0.557} />
       </mesh>
@@ -64,6 +81,12 @@ export const Car = (props: CarProps) => {
         <boxGeometry args={[0.3, 0.2, 0.6]}/>
         <meshStandardMaterial color={color} roughness={0.415} metalness={0.557}/>
       </mesh>
+      <Glass glassPosition={new Vector3(0, 0.1/2+0.2+0.05, 0.4/2+0.01/2)} glassRotation={new Euler(0, 0, 0)}/>
+      <Glass glassPosition={new Vector3(0, 0.1/2+0.2+0.05, -0.4/2-0.01/2)} glassRotation={new Euler(0, 0, 0)}/>
+      <Glass glassPosition={new Vector3(0.2/2+0.01/2, 0.1/2+0.2+0.05, 0.4/4+0.01/2)} glassRotation={new Euler(0, Math.PI/2, 0)}/>
+      <Glass glassPosition={new Vector3(0.2/2+0.01/2, 0.1/2+0.2+0.05, -0.4/4-0.01/2)} glassRotation={new Euler(0, Math.PI/2, 0)}/>
+      <Glass glassPosition={new Vector3(-0.2/2-0.01/2, 0.1/2+0.2+0.05, 0.4/4+0.01/2)} glassRotation={new Euler(0, Math.PI/2, 0)}/>
+      <Glass glassPosition={new Vector3(-0.2/2-0.01/2, 0.1/2+0.2+0.05, -0.4/4-0.01/2)} glassRotation={new Euler(0, Math.PI/2, 0)}/>
       <Wheel wheelPosition={new Vector3(0.15, 0.05, 0.15)}/>
       <Wheel wheelPosition={new Vector3(-0.15, 0.05, 0.15)}/>
       <Wheel wheelPosition={new Vector3(0.15, 0.05, -0.15)}/>
