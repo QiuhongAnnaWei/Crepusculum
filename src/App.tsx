@@ -1,5 +1,5 @@
 import { Button, ChakraProvider, Input } from '@chakra-ui/react';
-import { OrbitControls, Sky } from '@react-three/drei';
+import { OrbitControls, Sky, Stars } from '@react-three/drei';
 import { Canvas } from '@react-three/fiber';
 import { Suspense, useEffect, useState } from 'react';
 import { Vector3, Vector4 } from 'three';
@@ -71,18 +71,33 @@ function App() {
 	}
 
 	const getPos = (currentTime: any) => {
-		// currentTime: [0, 24]
-		const y = Math.abs(Math.cos(Math.PI / 24 * currentTime + Math.PI / 2)) * 25; // up
-		const x = Math.sin(Math.PI / 24 * currentTime + 3 * Math.PI / 2) * 70; // long
-		const z = Math.abs(Math.cos(Math.PI / 24 * currentTime + Math.PI / 2)) * 10; // short
+		// const t = -12 + currentTime*2; // map 6-18 to 0-24
+		const t = -60/7 + currentTime*12/7; // map 5-19 to 0-24
+		const y = Math.abs(Math.cos(Math.PI / 24 * t + Math.PI / 2)) * 25; // up
+		const x = Math.sin(Math.PI / 24 * t + 3 * Math.PI / 2) * 70; // long
+		const z = Math.abs(Math.cos(Math.PI / 24 * t + Math.PI / 2)) * 10; // short
 		return new Vector3(x, y, z);
 	}
 
 	const getAzimuth = (currentTime: any) =>{
-		// mapping 0 - 24 to 1 - 0.5
-		return 1 - currentTime / 48;
+		// mapping 6 - 18 to 1 - 0.5
+		return 5/4 - currentTime / 24;
 	}
 
+	const BetterSky = () =>{
+  	if (time > 5 && time < 19) {
+			return (
+				<>
+					<Rays currentTime={time} />
+					<directionalLight color="white" position={getPos(time)} intensity={getLightParam(time)} />
+					<Sky distance={450000} inclination={getLightParam(time)} azimuth={getAzimuth(time)} rayleigh={1} turbidity={10}/>
+				</>
+			)
+		} else {
+			return <Stars/>
+		}
+
+	}
 
 	return (
 		<ChakraProvider>
@@ -111,7 +126,6 @@ function App() {
 						<Canvas camera={{ fov: 80, position: [15, 6, 0] }}>
 							<OrbitControls />
 							<ambientLight color="white" intensity={0.4} />
-							<directionalLight color="white" position={getPos(time)} intensity={getLightParam(time)} />
 							{/* <directionalLight color="white" position={[50, 15, 50]} intensity={getLightParam(time)} /> */}
 							{/* <Ground /> */}
 							{buildingArray.map((position) => {
@@ -146,8 +160,9 @@ function App() {
 										moveDirection={position.w} />
 								)
 							})}
-							<Sky distance={450000} inclination={getLightParam(time)} azimuth={getAzimuth(time)} rayleigh={1} turbidity={10}/>
-							<Rays currentTime={time} />
+							<BetterSky />
+							{/* <Sky distance={450000} inclination={getLightParam(time)} azimuth={getAzimuth(time)} rayleigh={1} turbidity={10}/> */}
+							{/* <Rays currentTime={time} /> */}
 						</Canvas>
 					</div>
 				</div>

@@ -26,9 +26,11 @@ export const Rays = (props: RaysProps) => {
 
 	function getPos(currentTime: any): Vector3 {
 		// currentTime: [0, 24]
-		const y = Math.abs(Math.cos(Math.PI / 24 * currentTime + Math.PI / 2)) * 25; // up
-		const x = Math.sin(Math.PI / 24 * currentTime + 3 * Math.PI / 2) * 70; // long
-		const z = Math.abs(Math.cos(Math.PI / 24 * currentTime + Math.PI / 2)) * 10; // short
+		// const t = -12 + currentTime*2; // map 6-18 to 0-24
+		const t = -60/7 + currentTime*12/7; // map 5-19 to 0-24
+		const y = Math.abs(Math.cos(Math.PI / 24 * t + Math.PI / 2)) * 25; // up
+		const x = Math.sin(Math.PI / 24 * t + 3 * Math.PI / 2) * 70; // long
+		const z = Math.abs(Math.cos(Math.PI / 24 * t + Math.PI / 2)) * 10; // short
 		return new Vector3(x, y, z);
 	}
 

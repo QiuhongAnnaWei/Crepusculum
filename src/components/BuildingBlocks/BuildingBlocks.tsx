@@ -18,6 +18,7 @@ export function BuildingBlocks(props: BuildingBlockProps) {
 	const { buildingPosition, normalizedHeight, time } = props
 
 	const [randomTextureNumber]: [number, any] = useState(Math.random());
+	const [randomTextureState]: [number, any] = useState(Math.random());
 
 	const actualHeight = normalizedHeight * (maxHeight - minHeight) + minHeight;
 
@@ -26,12 +27,16 @@ export function BuildingBlocks(props: BuildingBlockProps) {
 
 	const name =
 		(texture_type === 0) ? 
-			((time > 6 && time < 18) ? (type: string) => `Facade006_2K_${type}.png` : (type: string) => `Facade009_2K_${type}.png`) :// 009
+			(((time > 6 && time < 18) || (time > 5 && time < 19 && randomTextureState < 0.4)) ? 
+				(type: string) => `Facade006_2K_${type}.png` : (type: string) => `Facade009_2K_${type}.png`) :// 009
 		(texture_type === 1) ? 
-			((time > 6 && time < 18) ? (type: string) => `Facade001_2K_${type}.png` : (type: string) => `Facade003_2K_${type}.png`): // 003
+			(((time > 6 && time < 18) || (time > 5 && time < 19 && randomTextureState < 0.3)) ?
+				(type: string) => `Facade001_2K_${type}.png` : (type: string) => `Facade003_2K_${type}.png`): // 003
 		(texture_type === 2) ? 
-			((time > 6 && time < 18) ? (type: string) => `Facade018A_2K_${type}.png`: (type: string) => `Facade018B_2K_${type}.png`)://018B
-			((time > 6 && time < 18) ? (type: string) => `Facade020A_2K_${type}.png`: (type: string) => `Facade020B_2K_${type}.png`) //020B
+			(((time > 6 && time < 18) || (time > 5 && time < 19 && randomTextureState < 0.6)) ?
+				(type: string) => `Facade018A_2K_${type}.png`: (type: string) => `Facade018B_2K_${type}.png`)://018B
+			(((time > 6 && time < 18) || (time > 5 && time < 19 && randomTextureState < 0.7)) ?
+				(type: string) => `Facade020A_2K_${type}.png`: (type: string) => `Facade020B_2K_${type}.png`) //020B
 
 	const [
 		colorMap,
@@ -46,6 +51,7 @@ export function BuildingBlocks(props: BuildingBlockProps) {
 		name("Roughness"),
 		name("Metalness")
 	]);
+
 
 	const repeatU = 0.7; const repeatV = actualHeight;
 
@@ -69,7 +75,7 @@ export function BuildingBlocks(props: BuildingBlockProps) {
 	metalMap.wrapT = THREE.RepeatWrapping;
 	metalMap.repeat.x = repeatU;
 	metalMap.repeat.y = repeatV;
-
+	
 
 	// textures for base
 	const name_base = (type: string) => `Asphalt019_1K_${type}.png`;
