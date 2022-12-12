@@ -22,7 +22,7 @@ export function BuildingBlocks(props: BuildingBlockProps) {
 	const actualHeight = normalizedHeight * (maxHeight - minHeight) + minHeight;
 
 	// textures for building
-	const texture_type = (actualHeight < 3)? Math.floor(randomTextureNumber * 2)+2 : Math.floor(randomTextureNumber * 2);
+	const texture_type = (actualHeight < 5)? Math.floor(randomTextureNumber * 2)+2 : Math.floor(randomTextureNumber * 2);
 
 	const name =
 		(texture_type === 0) ? 
@@ -47,7 +47,7 @@ export function BuildingBlocks(props: BuildingBlockProps) {
 		name("Metalness")
 	]);
 
-	const repeatU = 0.7; const repeatV = actualHeight / 1.4;
+	const repeatU = 0.7; const repeatV = actualHeight;
 
 	colorMap.wrapS = THREE.RepeatWrapping;
 	colorMap.wrapT = THREE.RepeatWrapping;

@@ -47,7 +47,6 @@ function App() {
 					tempRoadArray.push(new Vector3(col, 0, row))
 				} else {
 					// generate building
-					// if (Math.random() > 0.4) {
 					if (proceduralMap[row + WORLD_ROW_COUNT][col + WORLD_COL_COUNT] > BUILDING_THRESHOLD) {
 						tempBuildingArray.push(new Vector3(col, proceduralMap[row + WORLD_ROW_COUNT][col + WORLD_COL_COUNT], row))
 					} else {
