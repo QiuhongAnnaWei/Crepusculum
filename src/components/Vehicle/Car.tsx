@@ -30,11 +30,11 @@ export const Car = (props: CarProps) => {
 
     if (moveDirection === 0){
       ref.current!.position.x = cellPosition.x + 0.2;
-      ref.current!.position.z = (cellPosition.z-a/2) % 15;
+      ref.current!.position.z = (cellPosition.z-a/2) % 10;
     } 
     else if (moveDirection === 1){
       ref.current!.position.x = cellPosition.x - 0.2;
-      ref.current!.position.z = (cellPosition.z+a/2) % 15;
+      ref.current!.position.z = (cellPosition.z+a/2) % 10;
     }
   });
 
