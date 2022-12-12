@@ -7,8 +7,8 @@ import './App.css';
 import { BuildingBlocks, Car, GrassCell, Ground, Loader, Rays, RoadCell, TimeSlider, Tree } from './components';
 import { generateProceduralMaps } from './Procedural';
 
-const WORLD_ROW_COUNT = 15
-const WORLD_COL_COUNT = 50
+const WORLD_ROW_COUNT = 10
+const WORLD_COL_COUNT = 40
 const ROAD_ROW_FREQ = 4
 const ROAD_COL_FREQ = 7
 const PERLIN_FREQ = 8
