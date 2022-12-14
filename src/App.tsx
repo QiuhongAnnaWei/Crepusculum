@@ -22,6 +22,7 @@ function App() {
 	const [time, setTime]: [number, any] = useState(0)
 	const [showFloatingCity, setShowFloatingCity]: [boolean, any] = useState(false);
 	const [isCyberCity, setIsCyberCity]: [boolean, any] = useState(true)
+	const [isShowingCar, setIsShowingCar]: [boolean, any] = useState(true)
 	const [checked2K, setChecked2K]: [boolean, any] = useState(false);
 	const [minHeight, setMinHeight]: [number, any] = useState(1)
 	const [maxHeight, setMaxHeight]: [number, any] = useState(15)
@@ -120,6 +121,9 @@ function App() {
 							<div className="subtitle">a city generator</div>
 						</div>
 						<div className="control-panel">
+							<Checkbox isChecked={isShowingCar} onChange={() => setIsShowingCar(!isShowingCar)}>
+								<div className="settings-text">show cars</div>
+							</Checkbox>
 							<Checkbox isChecked={showFloatingCity} onChange={() => setShowFloatingCity(!showFloatingCity)}>
 								<div className="settings-text">floating city</div>
 							</Checkbox>
@@ -183,7 +187,7 @@ function App() {
 										/>
 									)
 								})}
-								{carArray.map((position, idx) => {
+								{isShowingCar && carArray.map((position, idx) => {
 									return (
 										<Car
 											cellPosition={new Vector3(position.x, position.y, position.z)}
