@@ -29,7 +29,7 @@
 
 .generate-panel {
 	position: absolute;
-	top: 110px;
+	top: 135px;
 	right: 30px;
 	z-index: 1;
 	backdrop-filter: blur(10px);

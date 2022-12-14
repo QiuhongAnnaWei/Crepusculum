@@ -20,7 +20,8 @@ function App() {
 	const [roadArray, setRoadArray]: [Vector3[], any] = useState([])
 	const [carArray, setCarArray]: [Vector4[], any] = useState([])
 	const [time, setTime]: [number, any] = useState(0)
-	const [showCars, setShowCars]: [boolean, any] = useState(true);
+	const [showFloatingCity, setShowFloatingCity]: [boolean, any] = useState(false);
+	const [isCyberCity, setIsCyberCity]: [boolean, any] = useState(true)
 	const [checked2K, setChecked2K]: [boolean, any] = useState(false);
 	const [minHeight, setMinHeight]: [number, any] = useState(1)
 	const [maxHeight, setMaxHeight]: [number, any] = useState(15)
@@ -105,22 +106,21 @@ function App() {
 		<ChakraProvider>
 			<DarkMode>
 				<Suspense fallback={<Loader />}>
-
 					<div className="threejs-wrapper">
 						<div className="heading-wrapper">
 							<div className="heading">crepusculum</div>
 							<div className="subtitle">a city generator</div>
 						</div>
 						<div className="control-panel">
-							<Checkbox isChecked={showCars} onChange={() => setShowCars(!showCars)}>
-								<div className="settings-text">show cars</div>
+							<Checkbox isChecked={showFloatingCity} onChange={() => setShowFloatingCity(!showFloatingCity)}>
+								<div className="settings-text">floating city</div>
+							</Checkbox>
+							<Checkbox isChecked={isCyberCity} onChange={() => setIsCyberCity(!isCyberCity)}>
+								<div className="settings-text">cyber city</div>
 							</Checkbox>
 							<Checkbox isChecked={checked2K} onChange={() => setChecked2K(!checked2K)}>
 								<div className="settings-text">high-res</div>
 							</Checkbox>
-							{/* <Checkbox value={checked2K} onChange={() => SetChecked2K(checked2K)}>
-							Cybercity
-						</Checkbox> */}
 						</div>
 						{!isAnimated && (<div className="generate-panel">
 							<div className="setting-individual">min height
@@ -133,8 +133,6 @@ function App() {
 						<div className="time-slider">
 							<TimeSlider time={time} setTime={setTime} isAnimated={isAnimated} setIsAnimated={setIsAnimated} />
 						</div>
-
-
 						<div style={{ width: "100vw", height: "100vh" }}>
 							<Canvas camera={{ fov: 80, position: [15, 6, 0] }}>
 								<OrbitControls />
@@ -168,8 +166,7 @@ function App() {
 										/>
 									)
 								})}
-								{/* (checkedFloat==0)? something to do with making road disappear*/}
-								{roadArray.map((position, idx) => {
+								{!showFloatingCity && roadArray.map((position, idx) => {
 									return (
 										<RoadCell
 											roadPosition={position}
@@ -178,7 +175,7 @@ function App() {
 										/>
 									)
 								})}
-								{showCars && carArray.map((position, idx) => {
+								{carArray.map((position, idx) => {
 									return (
 										<Car
 											cellPosition={new Vector3(position.x, position.y, position.z)}
