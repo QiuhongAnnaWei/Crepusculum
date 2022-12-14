@@ -82,19 +82,19 @@ export function BuildingBlocks(props: BuildingBlockProps) {
 
 
 	// textures for base
-	const name_base = (type: string) => `Asphalt019_1K_${type}.png`;
+	// const name_base = (type: string) => `Asphalt019_1K_${type}.png`;
 
-	const [
-		colorMapBase,
-		displacementMapBase,
-		normalMapBase,
-		roughnessMapBase,
-	] = useLoader(TextureLoader, [
-		name_base("Color"),
-		name_base("Displacement"),
-		name_base("NormalDX"),
-		name_base("Roughness"),
-	]);
+	// const [
+	// 	colorMapBase,
+	// 	displacementMapBase,
+	// 	normalMapBase,
+	// 	roughnessMapBase,
+	// ] = useLoader(TextureLoader, [
+	// 	name_base("Color"),
+	// 	name_base("Displacement"),
+	// 	name_base("NormalDX"),
+	// 	name_base("Roughness"),
+	// ]);
 
 	return (
 		<group>
@@ -151,10 +151,11 @@ export function BuildingBlocks(props: BuildingBlockProps) {
 				<boxGeometry args={[1, 0.02, 1]} />
 				<meshStandardMaterial
 					displacementScale={0}
-					map={colorMapBase}
-					displacementMap={displacementMapBase}
-					normalMap={normalMapBase}
-					roughnessMap={roughnessMapBase}
+					color={0x9A928F}
+					// map={colorMapBase}
+					// displacementMap={displacementMapBase}
+					// normalMap={normalMapBase}
+					// roughnessMap={roughnessMapBase}
 				/>
 			</mesh>
 		</group>

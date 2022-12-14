@@ -171,7 +171,9 @@ function App() {
 								{roadArray.map((position, idx) => {
 									return (
 										<RoadCell
-											roadPosition={position} key={idx + 3000}
+											roadPosition={position} 
+											key={idx + 3000}
+											quality={checked2K ? "2K" : "1K"}
 										/>
 									)
 								})}
