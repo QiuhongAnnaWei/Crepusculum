@@ -21,7 +21,7 @@ function App() {
 	const [carArray, setCarArray]: [Vector4[], any] = useState([])
 	const [time, setTime]: [number, any] = useState(0)
 	const [checkedFloat, SetCheckedFloat] = useState(0);
-	const [checked2K, SetChecked2K] = useState(0);
+	const [checked2K, setChecked2K]: [boolean, any] = useState(false);
 
 	// function that decides which block is building/grass
 	const generateCity = () => {
@@ -37,8 +37,8 @@ function App() {
 			for (let col = -WORLD_COL_COUNT; col <= WORLD_COL_COUNT; col++) {
 				if (col % ROAD_COL_FREQ === 0 && Math.random() > 0.85) {
 					tempCarArray.push(new Vector4(col, 0, row, Math.floor(Math.random() * 2)));
-				} else if (row % ROAD_ROW_FREQ === 0 && Math.random() > 0.85){
-					tempCarArray.push(new Vector4(col, 0, row, Math.floor(2+Math.random() * 2)));
+				} else if (row % ROAD_ROW_FREQ === 0 && Math.random() > 0.85) {
+					tempCarArray.push(new Vector4(col, 0, row, Math.floor(2 + Math.random() * 2)));
 				}
 				// generating roads in straight lines
 				if (row % ROAD_ROW_FREQ === 0 || col % ROAD_COL_FREQ === 0) {
@@ -74,39 +74,39 @@ function App() {
 
 	const getPos = (currentTime: any) => {
 		// const t = -12 + currentTime*2; // map 6-18 to 0-24
-		const t = -60/7 + currentTime*12/7; // map 5-19 to 0-24
+		const t = -60 / 7 + currentTime * 12 / 7; // map 5-19 to 0-24
 		const y = Math.abs(Math.cos(Math.PI / 24 * t + Math.PI / 2)) * 25; // up
 		const x = Math.sin(Math.PI / 24 * t + 3 * Math.PI / 2) * 70; // long
 		const z = Math.abs(Math.cos(Math.PI / 24 * t + Math.PI / 2)) * 10; // short
 		return new Vector3(x, y, z);
 	}
 
-	const getAzimuth = (currentTime: any) =>{
+	const getAzimuth = (currentTime: any) => {
 		// mapping 6 - 18 to 1 - 0.5
-		return 5/4 - currentTime / 24;
+		return 5 / 4 - currentTime / 24;
 	}
 
 	const getColor = (currentTime: number) => {
 		if (getLightParam(currentTime) > 0.7) {
 			return new Color(1, 1, 1);
 		}
-		const r = 255/255;
-		const g = (500 * getLightParam(currentTime)-150)/255;  // 101 - 200
-		const b = 60/255;
+		const r = 255 / 255;
+		const g = (500 * getLightParam(currentTime) - 150) / 255;  // 101 - 200
+		const b = 60 / 255;
 		return new Color(r, g, b);
 	}
 
-	const BetterSky = () =>{
-  	if (time > 5 && time < 19) {
+	const BetterSky = () => {
+		if (time > 5 && time < 19) {
 			return (
 				<>
 					<Rays currentTime={time} />
 					<directionalLight color={getColor(time)} position={getPos(time)} intensity={getLightParam(time)} />
-					<Sky distance={4500000} inclination={getLightParam(time)} azimuth={getAzimuth(time)} rayleigh={1} turbidity={10}/>
+					<Sky distance={4500000} inclination={getLightParam(time)} azimuth={getAzimuth(time)} rayleigh={1} turbidity={10} />
 				</>
 			)
 		} else {
-			return <Stars/>
+			return <Stars />
 		}
 
 	}
@@ -129,11 +129,11 @@ function App() {
 						<Button variant="outline" size='xs' width="100%" marginTop={2} onClick={generateCity}>
 							Generate
 						</Button>
-						<Checkbox value={checkedFloat}> 
+						<Checkbox value={checkedFloat}>
 							{/* onChange={SetCheckedFloat(checkedFloat)} */}
 							Floating City
 						</Checkbox>
-						<Checkbox value={checked2K} onChange={() => SetChecked2K(checked2K)}>
+						<Checkbox isChecked={checked2K} onChange={() => setChecked2K(!checked2K)}>
 							2K
 						</Checkbox>
 					</div>
@@ -153,7 +153,7 @@ function App() {
 										buildingPosition={position}
 										normalizedHeight={position.y}
 										time={time}
-										quality={checked2K? "2K" : "1K"}
+										quality={checked2K ? "2K" : "1K"}
 									/>
 								)
 							})}
@@ -165,13 +165,13 @@ function App() {
 									</>
 								)
 							})}
-							(checkedFloat==0)?
-								{roadArray.map((position) => {
-									return (
-										<RoadCell
-											roadPosition={position} />
-									)
-								})} : return ()
+							{/* (checkedFloat==0)? something to do with making road disappear*/}
+							{roadArray.map((position) => {
+								return (
+									<RoadCell
+										roadPosition={position} />
+								)
+							})}
 							{carArray.map((position) => {
 								return (
 									<Car
