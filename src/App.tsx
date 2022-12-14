@@ -96,20 +96,22 @@ function App() {
 		return new Color(r, g, b);
 	}
 
-	const BetterSky = () => {
-		if (time > 5 && time < 19) {
-			return (
-				<>
-					<Rays currentTime={time} />
-					<directionalLight color={getColor(time)} position={getPos(time)} intensity={getLightParam(time)} />
-					<Sky distance={4500000} inclination={getLightParam(time)} azimuth={getAzimuth(time)} rayleigh={1} turbidity={10} />
-				</>
-			)
-		} else {
-			return <Stars />
-		}
+	// const BetterSky = () => {
+	// 	if (time > 5 && time < 19) {
+	// 		return (
+	// 			<>
+	// 				<Rays currentTime={time} />
+	// 				<directionalLight color={getColor(time)} position={getPos(time)} intensity={getLightParam(time)} />
+	// 				<Sky distance={4500000} inclination={getLightParam(time)} azimuth={getAzimuth(time)} rayleigh={1} turbidity={10} />
+	// 			</>
+	// 		)
+	// 	} else {
+	// 		return <Stars />
+	// 	}
 
-	}
+	// }
+
+	const isSunUp = time > 5 && time < 19
 
 	return (
 		<ChakraProvider>
@@ -198,7 +200,17 @@ function App() {
 									)
 								})
 							}
-							< BetterSky />
+
+							<Rays currentTime={time} isShown={isSunUp} />
+							{isSunUp ? (
+								<>
+									<directionalLight color={getColor(time)} position={getPos(time)} intensity={getLightParam(time)} />
+									<Sky distance={4500000} inclination={getLightParam(time)} azimuth={getAzimuth(time)} rayleigh={1} turbidity={10} />
+								</>
+							) : (
+								<Stars />
+							)}
+
 						</Canvas>
 					</div>
 				</div>
