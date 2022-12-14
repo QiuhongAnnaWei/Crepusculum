@@ -1,4 +1,4 @@
-import { ChakraProvider, Checkbox, Input } from '@chakra-ui/react';
+import { ChakraProvider, Checkbox, Input, LightMode } from '@chakra-ui/react';
 import { OrbitControls, Sky, Stars } from '@react-three/drei';
 import { Canvas } from '@react-three/fiber';
 import { Suspense, useEffect, useState } from 'react';
@@ -103,99 +103,100 @@ function App() {
 
 	return (
 		<ChakraProvider>
-			<Suspense fallback={<Loader />}>
-				<div className="threejs-wrapper">
-					<div className="heading-wrapper">
-						<div className="heading">crepusculum</div>
-						<div className="subtitle">a city generator</div>
-					</div>
-					<div className="control-panel">
-						<Checkbox isChecked={showCars} onChange={() => setShowCars(!showCars)}>
-							<div className="settings-text">show cars</div>
-						</Checkbox>
-						<Checkbox isChecked={checked2K} onChange={() => setChecked2K(!checked2K)}>
-							<div className="settings-text">high-res</div>
-						</Checkbox>
-						{/* <Checkbox value={checked2K} onChange={() => SetChecked2K(checked2K)}>
+			<LightMode>
+				<Suspense fallback={<Loader />}>
+					<div className="threejs-wrapper">
+						<div className="heading-wrapper">
+							<div className="heading">crepusculum</div>
+							<div className="subtitle">a city generator</div>
+						</div>
+						<div className="control-panel">
+							<Checkbox isChecked={showCars} onChange={() => setShowCars(!showCars)}>
+								<div className="settings-text">show cars</div>
+							</Checkbox>
+							<Checkbox isChecked={checked2K} onChange={() => setChecked2K(!checked2K)}>
+								<div className="settings-text">high-res</div>
+							</Checkbox>
+							{/* <Checkbox value={checked2K} onChange={() => SetChecked2K(checked2K)}>
 							Cybercity
 						</Checkbox> */}
-					</div>
-					{!isAnimated && (<div className="generate-panel">
-						<div className="setting-individual">min height
-							<Input placeholder='1' size='xs' width={50} marginLeft={3} type="number" value={minHeight} onChange={(e) => setMinHeight(e.target.value)} />
 						</div>
-						<div className="setting-individual">max height
-							<Input placeholder='15' size='xs' width={50} marginLeft={2} type="number" value={maxHeight} onChange={(e) => setMaxHeight(e.target.value)} />
+						{!isAnimated && (<div className="generate-panel">
+							<div className="setting-individual">min height
+								<Input placeholder='1' size='xs' width={50} marginLeft={3} type="number" value={minHeight} onChange={(e) => setMinHeight(e.target.value)} />
+							</div>
+							<div className="setting-individual">max height
+								<Input placeholder='15' size='xs' width={50} marginLeft={2} type="number" value={maxHeight} onChange={(e) => setMaxHeight(e.target.value)} />
+							</div>
+						</div>)}
+						<div className="time-slider">
+							<TimeSlider time={time} setTime={setTime} isAnimated={isAnimated} setIsAnimated={setIsAnimated} />
 						</div>
-					</div>)}
-					<div className="time-slider">
-						<TimeSlider time={time} setTime={setTime} isAnimated={isAnimated} setIsAnimated={setIsAnimated} />
-					</div>
 
-					<div style={{ width: "100vw", height: "100vh" }}>
-						<Canvas camera={{ fov: 80, position: [15, 6, 0] }}>
-							<OrbitControls />
-							<ambientLight color="white" intensity={0.4} />
-							{buildingArray.map((position, idx) => {
-								return (
-									<BuildingBlocks
-										key={idx}
-										buildingPosition={position}
-										normalizedHeight={position.y}
-										time={time}
-										quality={checked2K ? "2K" : "1K"}
-										minHeight={minHeight}
-										maxHeight={maxHeight}
-									/>
-								)
-							})}
-							{grassArray.map((position, idx) => {
-								return (
-									<GrassCell
-										grassPosition={position}
-										key={idx + 1000}
-									/>
-								)
-							})}
-							{grassArray.map((position, idx) => {
-								return (
-									<Tree
-										treePosition={position}
-										key={idx + 2000}
-									/>
-								)
-							})}
-							{/* (checkedFloat==0)? something to do with making road disappear*/}
-							{roadArray.map((position, idx) => {
-								return (
-									<RoadCell
-										roadPosition={position} key={idx + 3000}
-									/>
-								)
-							})}
-							{showCars && carArray.map((position, idx) => {
-								return (
-									<Car
-										cellPosition={new Vector3(position.x, position.y, position.z)}
-										moveDirection={position.w}
-										key={idx + 4000}
-									/>
-								)
-							})}
-							<Rays currentTime={time} isShown={isSunUp} />
-							{isSunUp ? (
-								<>
-									<directionalLight color={getColor(time)} position={getPos(time)} intensity={getLightParam(time)} />
-									<Sky distance={4500000} inclination={getLightParam(time)} azimuth={getAzimuth(time)} rayleigh={1} turbidity={10} />
-								</>
-							) : (
-								<Stars />
-							)}
-
-						</Canvas>
+						<div style={{ width: "100vw", height: "100vh" }}>
+							<Canvas camera={{ fov: 80, position: [15, 6, 0] }}>
+								<OrbitControls />
+								<ambientLight color="white" intensity={0.4} />
+								{buildingArray.map((position, idx) => {
+									return (
+										<BuildingBlocks
+											key={idx}
+											buildingPosition={position}
+											normalizedHeight={position.y}
+											time={time}
+											quality={checked2K ? "2K" : "1K"}
+											minHeight={minHeight}
+											maxHeight={maxHeight}
+										/>
+									)
+								})}
+								{grassArray.map((position, idx) => {
+									return (
+										<GrassCell
+											grassPosition={position}
+											key={idx + 1000}
+										/>
+									)
+								})}
+								{grassArray.map((position, idx) => {
+									return (
+										<Tree
+											treePosition={position}
+											key={idx + 2000}
+										/>
+									)
+								})}
+								{/* (checkedFloat==0)? something to do with making road disappear*/}
+								{roadArray.map((position, idx) => {
+									return (
+										<RoadCell
+											roadPosition={position} key={idx + 3000}
+										/>
+									)
+								})}
+								{showCars && carArray.map((position, idx) => {
+									return (
+										<Car
+											cellPosition={new Vector3(position.x, position.y, position.z)}
+											moveDirection={position.w}
+											key={idx + 4000}
+										/>
+									)
+								})}
+								<Rays currentTime={time} isShown={isSunUp} />
+								{isSunUp ? (
+									<>
+										<directionalLight color={getColor(time)} position={getPos(time)} intensity={getLightParam(time)} />
+										<Sky distance={4500000} inclination={getLightParam(time)} azimuth={getAzimuth(time)} rayleigh={1} turbidity={10} />
+									</>
+								) : (
+									<Stars />
+								)}
+							</Canvas>
+						</div>
 					</div>
-				</div>
-			</Suspense>
+				</Suspense>
+			</LightMode>
 		</ChakraProvider >
 	);
 }
