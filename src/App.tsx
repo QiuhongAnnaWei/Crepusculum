@@ -1,8 +1,8 @@
-import { Button, ChakraProvider, Input, Checkbox } from '@chakra-ui/react';
+import { ChakraProvider, Checkbox, Input } from '@chakra-ui/react';
 import { OrbitControls, Sky, Stars } from '@react-three/drei';
 import { Canvas } from '@react-three/fiber';
 import { Suspense, useEffect, useState } from 'react';
-import { Vector3, Vector4, Color } from 'three';
+import { Color, Vector3, Vector4 } from 'three';
 import './App.css';
 import { BuildingBlocks, Car, GrassCell, Loader, Rays, RoadCell, TimeSlider, Tree } from './components';
 import { generateProceduralMaps } from './Procedural';
@@ -20,8 +20,11 @@ function App() {
 	const [roadArray, setRoadArray]: [Vector3[], any] = useState([])
 	const [carArray, setCarArray]: [Vector4[], any] = useState([])
 	const [time, setTime]: [number, any] = useState(0)
-	const [checkedFloat, SetCheckedFloat] = useState(0);
+	const [showCars, setShowCars]: [boolean, any] = useState(true);
 	const [checked2K, setChecked2K]: [boolean, any] = useState(false);
+	const [minHeight, setMinHeight]: [number, any] = useState(1)
+	const [maxHeight, setMaxHeight]: [number, any] = useState(15)
+	const [isAnimated, setIsAnimated] = useState(true)
 
 	// function that decides which block is building/grass
 	const generateCity = () => {
@@ -96,21 +99,6 @@ function App() {
 		return new Color(r, g, b);
 	}
 
-	// const BetterSky = () => {
-	// 	if (time > 5 && time < 19) {
-	// 		return (
-	// 			<>
-	// 				<Rays currentTime={time} />
-	// 				<directionalLight color={getColor(time)} position={getPos(time)} intensity={getLightParam(time)} />
-	// 				<Sky distance={4500000} inclination={getLightParam(time)} azimuth={getAzimuth(time)} rayleigh={1} turbidity={10} />
-	// 			</>
-	// 		)
-	// 	} else {
-	// 		return <Stars />
-	// 	}
-
-	// }
-
 	const isSunUp = time > 5 && time < 19
 
 	return (
@@ -122,36 +110,32 @@ function App() {
 						<div className="subtitle">a city generator</div>
 					</div>
 					<div className="control-panel">
-						<div className="setting-individual">Max height
-							<Input placeholder='10' size='xs' width={50} marginLeft={2} />
-						</div>
-						<div className="setting-individual">Min height
-							<Input placeholder='2' size='xs' width={50} marginLeft={2} />
-						</div>
-						<Button variant="outline" size='xs' width="100%" marginTop={2} onClick={generateCity}>
-							Generate
-						</Button>
-						<Checkbox value={checkedFloat}>
-							{/* onChange={SetCheckedFloat(checkedFloat)} */}
-							Floating City
+						<Checkbox isChecked={showCars} onChange={() => setShowCars(!showCars)}>
+							<div className="settings-text">show cars</div>
 						</Checkbox>
 						<Checkbox isChecked={checked2K} onChange={() => setChecked2K(!checked2K)}>
-							2K
+							<div className="settings-text">high-res</div>
 						</Checkbox>
 						{/* <Checkbox value={checked2K} onChange={() => SetChecked2K(checked2K)}>
 							Cybercity
 						</Checkbox> */}
 					</div>
+					{!isAnimated && (<div className="generate-panel">
+						<div className="setting-individual">min height
+							<Input placeholder='1' size='xs' width={50} marginLeft={3} type="number" value={minHeight} onChange={(e) => setMinHeight(e.target.value)} />
+						</div>
+						<div className="setting-individual">max height
+							<Input placeholder='15' size='xs' width={50} marginLeft={2} type="number" value={maxHeight} onChange={(e) => setMaxHeight(e.target.value)} />
+						</div>
+					</div>)}
 					<div className="time-slider">
-						<TimeSlider time={time} setTime={setTime} />
+						<TimeSlider time={time} setTime={setTime} isAnimated={isAnimated} setIsAnimated={setIsAnimated} />
 					</div>
 
 					<div style={{ width: "100vw", height: "100vh" }}>
 						<Canvas camera={{ fov: 80, position: [15, 6, 0] }}>
 							<OrbitControls />
 							<ambientLight color="white" intensity={0.4} />
-							{/* <directionalLight color="white" position={[50, 15, 50]} intensity={getLightParam(time)} /> */}
-							{/* <Ground /> */}
 							{buildingArray.map((position, idx) => {
 								return (
 									<BuildingBlocks
@@ -160,6 +144,8 @@ function App() {
 										normalizedHeight={position.y}
 										time={time}
 										quality={checked2K ? "2K" : "1K"}
+										minHeight={minHeight}
+										maxHeight={maxHeight}
 									/>
 								)
 							})}
@@ -180,27 +166,22 @@ function App() {
 								)
 							})}
 							{/* (checkedFloat==0)? something to do with making road disappear*/}
-							{
-								roadArray.map((position, idx) => {
-									return (
-										<RoadCell
-											roadPosition={position} key={idx + 3000}
-										/>
-									)
-								})
-							}
-							{
-								carArray.map((position, idx) => {
-									return (
-										<Car
-											cellPosition={new Vector3(position.x, position.y, position.z)}
-											moveDirection={position.w}
-											key={idx + 4000}
-										/>
-									)
-								})
-							}
-
+							{roadArray.map((position, idx) => {
+								return (
+									<RoadCell
+										roadPosition={position} key={idx + 3000}
+									/>
+								)
+							})}
+							{showCars && carArray.map((position, idx) => {
+								return (
+									<Car
+										cellPosition={new Vector3(position.x, position.y, position.z)}
+										moveDirection={position.w}
+										key={idx + 4000}
+									/>
+								)
+							})}
 							<Rays currentTime={time} isShown={isSunUp} />
 							{isSunUp ? (
 								<>

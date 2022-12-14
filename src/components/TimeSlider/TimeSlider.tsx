@@ -1,17 +1,18 @@
-import { Slider, SliderTrack, SliderFilledTrack, SliderThumb, Box, Button } from "@chakra-ui/react";
-import { SunIcon } from '@chakra-ui/icons'
-import "./styles.css"
-import { useEffect, useRef, useState } from "react";
+import { SunIcon } from '@chakra-ui/icons';
+import { Box, Button, Slider, SliderFilledTrack, SliderThumb, SliderTrack } from "@chakra-ui/react";
+import { useEffect, useRef } from "react";
+import "./styles.css";
 
 interface TimerProps {
 	time: number,
 	setTime: (time: number) => void
+	isAnimated: boolean,
+	setIsAnimated: (isAnimated: boolean) => void
 }
 
 export const TimeSlider = (props: TimerProps) => {
 
-	const { time, setTime } = props
-	const [isAnimated, setIsAnimated] = useState(true)
+	const { time, setTime, isAnimated, setIsAnimated } = props
 
 	let realSec = useRef(0);
 
@@ -32,7 +33,7 @@ export const TimeSlider = (props: TimerProps) => {
 		}
 		// clean up after component unmount
 		return () => clearInterval(autoIncrementor);
-	}, [isAnimated]);
+	}, [isAnimated, setTime]);
 
 	const handleSliderChange = (e: number) => {
 		setTime(e)
@@ -57,7 +58,7 @@ export const TimeSlider = (props: TimerProps) => {
 				</SliderThumb>
 			</Slider>
 			<Button variant="outline" size='xs' width="100%" marginTop={2} onClick={handleAnimation}>
-				{`${isAnimated ? "stop" : "start"} animation`}
+				{`${isAnimated ? "stop" : "start"} auto incrementing`}
 			</Button>
 		</div>
 	)
