@@ -1,4 +1,4 @@
-import { ChakraProvider, Checkbox, Input, LightMode } from '@chakra-ui/react';
+import { ChakraProvider, Checkbox, DarkMode, Input } from '@chakra-ui/react';
 import { OrbitControls, Sky, Stars } from '@react-three/drei';
 import { Canvas } from '@react-three/fiber';
 import { Suspense, useEffect, useState } from 'react';
@@ -103,35 +103,36 @@ function App() {
 
 	return (
 		<ChakraProvider>
-			<LightMode>
-				<Suspense fallback={<Loader />}>
-					<div className="threejs-wrapper">
-						<div className="heading-wrapper">
-							<div className="heading">crepusculum</div>
-							<div className="subtitle">a city generator</div>
-						</div>
-						<div className="control-panel">
-							<Checkbox isChecked={showCars} onChange={() => setShowCars(!showCars)}>
-								<div className="settings-text">show cars</div>
-							</Checkbox>
-							<Checkbox isChecked={checked2K} onChange={() => setChecked2K(!checked2K)}>
-								<div className="settings-text">high-res</div>
-							</Checkbox>
-							{/* <Checkbox value={checked2K} onChange={() => SetChecked2K(checked2K)}>
+			<DarkMode>
+				<div className="threejs-wrapper">
+					<div className="heading-wrapper">
+						<div className="heading">crepusculum</div>
+						<div className="subtitle">a city generator</div>
+					</div>
+					<div className="control-panel">
+						<Checkbox isChecked={showCars} onChange={() => setShowCars(!showCars)}>
+							<div className="settings-text">show cars</div>
+						</Checkbox>
+						<Checkbox isChecked={checked2K} onChange={() => setChecked2K(!checked2K)}>
+							<div className="settings-text">high-res</div>
+						</Checkbox>
+						{/* <Checkbox value={checked2K} onChange={() => SetChecked2K(checked2K)}>
 							Cybercity
 						</Checkbox> */}
+					</div>
+					{!isAnimated && (<div className="generate-panel">
+						<div className="setting-individual">min height
+							<Input placeholder='1' size='xs' width={50} marginLeft={3} type="number" value={minHeight} onChange={(e) => setMinHeight(e.target.value)} />
 						</div>
-						{!isAnimated && (<div className="generate-panel">
-							<div className="setting-individual">min height
-								<Input placeholder='1' size='xs' width={50} marginLeft={3} type="number" value={minHeight} onChange={(e) => setMinHeight(e.target.value)} />
-							</div>
-							<div className="setting-individual">max height
-								<Input placeholder='15' size='xs' width={50} marginLeft={2} type="number" value={maxHeight} onChange={(e) => setMaxHeight(e.target.value)} />
-							</div>
-						</div>)}
-						<div className="time-slider">
-							<TimeSlider time={time} setTime={setTime} isAnimated={isAnimated} setIsAnimated={setIsAnimated} />
+						<div className="setting-individual">max height
+							<Input placeholder='15' size='xs' width={50} marginLeft={2} type="number" value={maxHeight} onChange={(e) => setMaxHeight(e.target.value)} />
 						</div>
+					</div>)}
+					<div className="time-slider">
+						<TimeSlider time={time} setTime={setTime} isAnimated={isAnimated} setIsAnimated={setIsAnimated} />
+					</div>
+
+					<Suspense fallback={<Loader />}>
 
 						<div style={{ width: "100vw", height: "100vh" }}>
 							<Canvas camera={{ fov: 80, position: [15, 6, 0] }}>
@@ -194,9 +195,9 @@ function App() {
 								)}
 							</Canvas>
 						</div>
-					</div>
-				</Suspense>
-			</LightMode>
+					</Suspense>
+				</div>
+			</DarkMode>
 		</ChakraProvider >
 	);
 }
