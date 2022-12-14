@@ -1,4 +1,4 @@
-import { Button, ChakraProvider, Input } from '@chakra-ui/react';
+import { Button, ChakraProvider, Input, Checkbox } from '@chakra-ui/react';
 import { OrbitControls, Sky, Stars } from '@react-three/drei';
 import { Canvas } from '@react-three/fiber';
 import { Suspense, useEffect, useState } from 'react';
@@ -20,6 +20,8 @@ function App() {
 	const [roadArray, setRoadArray]: [Vector3[], any] = useState([])
 	const [carArray, setCarArray]: [Vector4[], any] = useState([])
 	const [time, setTime]: [number, any] = useState(0)
+	const [checkedFloat, SetCheckedFloat] = useState(0);
+	const [checked2K, SetChecked2K] = useState(0);
 
 	// function that decides which block is building/grass
 	const generateCity = () => {
@@ -118,15 +120,22 @@ function App() {
 						<div className="subtitle">a city generator</div>
 					</div>
 					<div className="control-panel">
-						<div className="setting-individual">max height
+						<div className="setting-individual">Max height
 							<Input placeholder='10' size='xs' width={50} marginLeft={2} />
 						</div>
-						<div className="setting-individual">min height
+						<div className="setting-individual">Min height
 							<Input placeholder='2' size='xs' width={50} marginLeft={2} />
 						</div>
-						<Button variant="outline" size='xs' width="100%" marginTop={2}>
-							generate
+						<Button variant="outline" size='xs' width="100%" marginTop={2} onClick={generateCity}>
+							Generate
 						</Button>
+						<Checkbox value={checkedFloat}> 
+							{/* onChange={SetCheckedFloat(checkedFloat)} */}
+							Floating City
+						</Checkbox>
+						<Checkbox value={checked2K} onChange={() => SetChecked2K(checked2K)}>
+							2K
+						</Checkbox>
 					</div>
 					<div className="time-slider">
 						<TimeSlider time={time} setTime={setTime} />
@@ -144,25 +153,25 @@ function App() {
 										buildingPosition={position}
 										normalizedHeight={position.y}
 										time={time}
+										quality={checked2K? "2K" : "1K"}
 									/>
 								)
 							})}
 							{grassArray.map((position) => {
 								return (
 									<>
-										<GrassCell
-											grassPosition={position} />
-										<Tree
-											treePosition={position} />
+										<GrassCell grassPosition={position} />
+										<Tree treePosition={position} />
 									</>
 								)
 							})}
-							{roadArray.map((position) => {
-								return (
-									<RoadCell
-										roadPosition={position} />
-								)
-							})}
+							(checkedFloat==0)?
+								{roadArray.map((position) => {
+									return (
+										<RoadCell
+											roadPosition={position} />
+									)
+								})} : return ()
 							{carArray.map((position) => {
 								return (
 									<Car

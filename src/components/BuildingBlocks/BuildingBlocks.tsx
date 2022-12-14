@@ -8,6 +8,7 @@ interface BuildingBlockProps {
 	buildingPosition: Vector3
 	normalizedHeight: number
 	time: number
+	quality: String
 }
 
 const minHeight = 1
@@ -15,9 +16,9 @@ const maxHeight = 10
 
 export function BuildingBlocks(props: BuildingBlockProps) {
 
-	const { buildingPosition, normalizedHeight, time } = props
+	const { buildingPosition, normalizedHeight, time, quality } = props
 
-	const [randomTextureNumber]: [number, any] = useState(Math.random());
+	const [randomTextureNumber]: [number, any] = useState(Math.random()); // use state so it doesn't always regenerate
 	const [randomTextureState]: [number, any] = useState(Math.random());
 
 	const actualHeight = normalizedHeight * (maxHeight - minHeight) + minHeight;
@@ -25,18 +26,19 @@ export function BuildingBlocks(props: BuildingBlockProps) {
 	// textures for building
 	const texture_type = (actualHeight < 5)? Math.floor(randomTextureNumber * 2)+2 : Math.floor(randomTextureNumber * 2);
 
+	
 	const name =
 		(texture_type === 0) ? 
 			(((time > 6 && time < 18) || (time > 5 && time < 19 && randomTextureState < 0.4)) ? 
-				(type: string) => `Facade006_2K_${type}.png` : (type: string) => `Facade009_2K_${type}.png`) :// 009
+				(type: string) => `Facade006_${quality}_${type}.png` : (type: string) => `Facade009_${quality}_${type}.png`) :// 009
 		(texture_type === 1) ? 
 			(((time > 6 && time < 18) || (time > 5 && time < 19 && randomTextureState < 0.3)) ?
-				(type: string) => `Facade001_2K_${type}.png` : (type: string) => `Facade003_2K_${type}.png`): // 003
+				(type: string) => `Facade001_${quality}_${type}.png` : (type: string) => `Facade003_${quality}_${type}.png`): // 003
 		(texture_type === 2) ? 
 			(((time > 6 && time < 18) || (time > 5 && time < 19 && randomTextureState < 0.6)) ?
-				(type: string) => `Facade018A_2K_${type}.png`: (type: string) => `Facade018B_2K_${type}.png`)://018B
+				(type: string) => `Facade018A_${quality}_${type}.png`: (type: string) => `Facade018B_${quality}_${type}.png`)://018B
 			(((time > 6 && time < 18) || (time > 5 && time < 19 && randomTextureState < 0.7)) ?
-				(type: string) => `Facade020A_2K_${type}.png`: (type: string) => `Facade020B_2K_${type}.png`) //020B
+				(type: string) => `Facade020A_${quality}_${type}.png`: (type: string) => `Facade020B_${quality}_${type}.png`) //020B
 
 	const [
 		colorMap,
