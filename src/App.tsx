@@ -24,7 +24,7 @@ function App() {
 	const [checked2K, setChecked2K]: [boolean, any] = useState(false);
 	const [minHeight, setMinHeight]: [number, any] = useState(1)
 	const [maxHeight, setMaxHeight]: [number, any] = useState(15)
-	const [isAnimated, setIsAnimated] = useState(true)
+	const [isAnimated, setIsAnimated] = useState(false)
 
 	// function that decides which block is building/grass
 	const generateCity = () => {
@@ -104,35 +104,36 @@ function App() {
 	return (
 		<ChakraProvider>
 			<DarkMode>
-				<div className="threejs-wrapper">
-					<div className="heading-wrapper">
-						<div className="heading">crepusculum</div>
-						<div className="subtitle">a city generator</div>
-					</div>
-					<div className="control-panel">
-						<Checkbox isChecked={showCars} onChange={() => setShowCars(!showCars)}>
-							<div className="settings-text">show cars</div>
-						</Checkbox>
-						<Checkbox isChecked={checked2K} onChange={() => setChecked2K(!checked2K)}>
-							<div className="settings-text">high-res</div>
-						</Checkbox>
-						{/* <Checkbox value={checked2K} onChange={() => SetChecked2K(checked2K)}>
+				<Suspense fallback={<Loader />}>
+
+					<div className="threejs-wrapper">
+						<div className="heading-wrapper">
+							<div className="heading">crepusculum</div>
+							<div className="subtitle">a city generator</div>
+						</div>
+						<div className="control-panel">
+							<Checkbox isChecked={showCars} onChange={() => setShowCars(!showCars)}>
+								<div className="settings-text">show cars</div>
+							</Checkbox>
+							<Checkbox isChecked={checked2K} onChange={() => setChecked2K(!checked2K)}>
+								<div className="settings-text">high-res</div>
+							</Checkbox>
+							{/* <Checkbox value={checked2K} onChange={() => SetChecked2K(checked2K)}>
 							Cybercity
 						</Checkbox> */}
-					</div>
-					{!isAnimated && (<div className="generate-panel">
-						<div className="setting-individual">min height
-							<Input placeholder='1' size='xs' width={50} marginLeft={3} type="number" value={minHeight} onChange={(e) => setMinHeight(e.target.value)} />
 						</div>
-						<div className="setting-individual">max height
-							<Input placeholder='15' size='xs' width={50} marginLeft={2} type="number" value={maxHeight} onChange={(e) => setMaxHeight(e.target.value)} />
+						{!isAnimated && (<div className="generate-panel">
+							<div className="setting-individual">min height
+								<Input placeholder='1' size='xs' width={50} marginLeft={3} type="number" value={minHeight} onChange={(e) => setMinHeight(e.target.value)} />
+							</div>
+							<div className="setting-individual">max height
+								<Input placeholder='15' size='xs' width={50} marginLeft={2} type="number" value={maxHeight} onChange={(e) => setMaxHeight(e.target.value)} />
+							</div>
+						</div>)}
+						<div className="time-slider">
+							<TimeSlider time={time} setTime={setTime} isAnimated={isAnimated} setIsAnimated={setIsAnimated} />
 						</div>
-					</div>)}
-					<div className="time-slider">
-						<TimeSlider time={time} setTime={setTime} isAnimated={isAnimated} setIsAnimated={setIsAnimated} />
-					</div>
 
-					<Suspense fallback={<Loader />}>
 
 						<div style={{ width: "100vw", height: "100vh" }}>
 							<Canvas camera={{ fov: 80, position: [15, 6, 0] }}>
@@ -162,7 +163,7 @@ function App() {
 								{grassArray.map((position, idx) => {
 									return (
 										<Tree
-											treePosition={position} 
+											treePosition={position}
 											key={idx + 2000}
 										/>
 									)
@@ -171,7 +172,7 @@ function App() {
 								{roadArray.map((position, idx) => {
 									return (
 										<RoadCell
-											roadPosition={position} 
+											roadPosition={position}
 											key={idx + 3000}
 											quality={checked2K ? "2K" : "1K"}
 										/>
@@ -197,8 +198,8 @@ function App() {
 								)}
 							</Canvas>
 						</div>
-					</Suspense>
-				</div>
+					</div>
+				</Suspense>
 			</DarkMode>
 		</ChakraProvider >
 	);
