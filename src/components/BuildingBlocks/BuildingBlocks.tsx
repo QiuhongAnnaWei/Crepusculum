@@ -12,7 +12,8 @@ interface BuildingBlockProps {
 }
 
 const minHeight = 1
-const maxHeight = 10
+const maxHeight = 20
+
 
 export function BuildingBlocks(props: BuildingBlockProps) {
 
