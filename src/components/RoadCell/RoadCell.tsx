@@ -42,7 +42,6 @@ export const RoadCell = (props: RoadCellProps) => {
 			/>
 		</mesh>
 		<mesh
-			position={[roadPosition.x, 0, roadPosition.z]}
 			rotation-x={-Math.PI / 2}>
 			<planeGeometry args={[1, 1]} />
 			<meshStandardMaterial
