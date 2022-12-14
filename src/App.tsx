@@ -21,7 +21,7 @@ function App() {
 	const [carArray, setCarArray]: [Vector4[], any] = useState([])
 	const [time, setTime]: [number, any] = useState(0)
 	const [showFloatingCity, setShowFloatingCity]: [boolean, any] = useState(false);
-	const [isCyberCity, setIsCyberCity]: [boolean, any] = useState(true)
+	const [isCyberCity, setIsCyberCity]: [boolean, any] = useState(false)
 	const [isShowingCar, setIsShowingCar]: [boolean, any] = useState(true)
 	const [checked2K, setChecked2K]: [boolean, any] = useState(false);
 	const [minHeight, setMinHeight]: [number, any] = useState(1)
