@@ -11,7 +11,7 @@ const WORLD_ROW_COUNT = 10
 const WORLD_COL_COUNT = 40
 const ROAD_ROW_FREQ = 4
 const ROAD_COL_FREQ = 7
-const PERLIN_FREQ = 8
+const PERLIN_FREQ = 16
 const BUILDING_THRESHOLD = 0.2
 
 function App() {
