@@ -1,6 +1,6 @@
 import { useLoader } from "@react-three/fiber";
 import * as THREE from "three";
-import { Vector3 } from 'three';
+import { Vector3, Euler } from 'three';
 import { TextureLoader } from "three/src/loaders/TextureLoader";
 
 interface RoadCellProps {
@@ -11,9 +11,9 @@ interface RoadCellProps {
 export const RoadCell = (props: RoadCellProps) => {
 	const { roadPosition, quality } = props
 
-	const name = 
-		(roadPosition.x % 7 === 0) ? (type: string) => `Road007_2K_${type}.png`
-		: (type: string) => `Road007_${quality}_${type}_rotated.png`
+	const name = (type: string) => `Road007_${quality}_${type}.png`
+	const rotation =
+		(roadPosition.x % 7 === 0) ? new Euler(0, 0, 0) : new Euler(0, Math.PI / 2, 0)
 
 	const [
 		colorMap,
@@ -28,9 +28,8 @@ export const RoadCell = (props: RoadCellProps) => {
 	]);
 
 	return (
-	<group>
+	<group position={[roadPosition.x, 0, roadPosition.z]} rotation={rotation}>
 		<mesh
-			position={[roadPosition.x, 0, roadPosition.z]}
 			rotation-x={-Math.PI / 2}>
 			<planeGeometry args={[1, 1]} />
 			<meshStandardMaterial

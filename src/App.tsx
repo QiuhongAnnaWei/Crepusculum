@@ -162,7 +162,7 @@ function App() {
 								{grassArray.map((position, idx) => {
 									return (
 										<Tree
-											treePosition={position}
+											treePosition={position} 
 											key={idx + 2000}
 										/>
 									)
