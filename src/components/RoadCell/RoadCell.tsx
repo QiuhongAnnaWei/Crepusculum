@@ -1,4 +1,5 @@
 import { useLoader } from "@react-three/fiber";
+import * as THREE from "three";
 import { Vector3 } from 'three';
 import { TextureLoader } from "three/src/loaders/TextureLoader";
 
@@ -26,11 +27,13 @@ export const RoadCell = (props: RoadCellProps) => {
 	]);
 
 	return (
+	<group>
 		<mesh
 			position={[roadPosition.x, 0, roadPosition.z]}
 			rotation-x={-Math.PI / 2}>
 			<planeGeometry args={[1, 1]} />
 			<meshStandardMaterial
+				side = {THREE.FrontSide}
 				displacementScale={0}
 				map={colorMap}
 				displacementMap={displacementMap}
@@ -38,5 +41,15 @@ export const RoadCell = (props: RoadCellProps) => {
 				roughnessMap={roughnessMap}
 			/>
 		</mesh>
+		<mesh
+			position={[roadPosition.x, 0, roadPosition.z]}
+			rotation-x={-Math.PI / 2}>
+			<planeGeometry args={[1, 1]} />
+			<meshStandardMaterial
+				side = {THREE.BackSide}
+				color={0x757373}
+			/> 
+		</mesh>
+	</group>
 	)
 }
