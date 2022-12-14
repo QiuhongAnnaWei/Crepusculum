@@ -150,9 +150,10 @@ function App() {
 							<ambientLight color="white" intensity={0.4} />
 							{/* <directionalLight color="white" position={[50, 15, 50]} intensity={getLightParam(time)} /> */}
 							{/* <Ground /> */}
-							{buildingArray.map((position) => {
+							{buildingArray.map((position, idx) => {
 								return (
 									<BuildingBlocks
+										key={idx}
 										buildingPosition={position}
 										normalizedHeight={position.y}
 										time={time}
@@ -160,34 +161,49 @@ function App() {
 									/>
 								)
 							})}
-							{grassArray.map((position) => {
+							{grassArray.map((position, idx) => {
 								return (
-									<>
-										<GrassCell grassPosition={position} />
-										<Tree treePosition={position} />
-									</>
+									<GrassCell
+										grassPosition={position}
+										key={idx + 1000}
+									/>
+								)
+							})}
+							{grassArray.map((position, idx) => {
+								return (
+									<Tree
+										treePosition={position}
+										key={idx + 2000}
+									/>
 								)
 							})}
 							{/* (checkedFloat==0)? something to do with making road disappear*/}
-							{roadArray.map((position) => {
-								return (
-									<RoadCell
-										roadPosition={position} />
-								)
-							})}
-							{carArray.map((position) => {
-								return (
-									<Car
-										cellPosition={new Vector3(position.x, position.y, position.z)}
-										moveDirection={position.w} />
-								)
-							})}
-							<BetterSky />
+							{
+								roadArray.map((position, idx) => {
+									return (
+										<RoadCell
+											roadPosition={position} key={idx + 3000}
+										/>
+									)
+								})
+							}
+							{
+								carArray.map((position, idx) => {
+									return (
+										<Car
+											cellPosition={new Vector3(position.x, position.y, position.z)}
+											moveDirection={position.w}
+											key={idx + 4000}
+										/>
+									)
+								})
+							}
+							< BetterSky />
 						</Canvas>
 					</div>
 				</div>
 			</Suspense>
-		</ChakraProvider>
+		</ChakraProvider >
 	);
 }
 

@@ -13,15 +13,15 @@ export const TimeSlider = (props: TimerProps) => {
 	const { time, setTime } = props
 	let realSec = useRef(0);
 
-	useEffect(() => {
-		const id = setInterval(() => {
-			// console.log(time)
-			setTime(realSec.current + 0.05)
-			realSec.current += 0.05
-		}, 100);
-		// clean up after component unmount
-		return () => clearInterval(id);
-	}, []);
+	// useEffect(() => {
+	// 	const id = setInterval(() => {
+	// 		// console.log(time)
+	// 		setTime(realSec.current + 0.05)
+	// 		realSec.current += 0.05
+	// 	}, 100);
+	// 	// clean up after component unmount
+	// 	return () => clearInterval(id);
+	// }, []);
 
 	return (
 		<div className="time-wrapper">
