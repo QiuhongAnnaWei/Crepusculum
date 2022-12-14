@@ -145,7 +145,7 @@ function perlin2d(x:number, y:number):number {
       gradP[i] = gradP[i + 256] = grad3[v % 12];
     }
   }
-  seeding(0);
+  seeding(Math.random());
   // Calculate noise contributions from each of the four corners
   var n00 = dot2(gradP[X + perm[Y]], x, y);
   var n01 = dot2(gradP[X + perm[Y + 1]], x, y - 1);
