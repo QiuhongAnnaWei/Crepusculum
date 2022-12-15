@@ -92,13 +92,21 @@ function App() {
 	}
 
 	const getColor = (currentTime: number) => {
-		if (getLightParam(currentTime) > 0.7) {
-			return new Color(1, 1, 1);
+		if (!isCyberCity){
+			if (getLightParam(currentTime) > 0.7) {
+				return new Color(1, 1, 1);
+			}
+			const r = 255 / 255;
+			const g = (500 * getLightParam(currentTime) - 150) / 255;  // 101 - 200
+			const b = 60 / 255;
+			return new Color(r, g, b);
+		} else {
+			const r = getLightParam(currentTime);
+			const g = 121 / 255;  // 101 - 200
+			const b = 216 / 255;
+			return new Color(r, g, b);
 		}
-		const r = 255 / 255;
-		const g = (500 * getLightParam(currentTime) - 150) / 255;  // 101 - 200
-		const b = 60 / 255;
-		return new Color(r, g, b);
+		
 	}
 
 	const isSunUp = time > 5 && time < 19
@@ -188,7 +196,7 @@ function App() {
 										/>
 									)
 								})}
-								<Rays currentTime={time} isShown={isSunUp} />
+								<Rays currentTime={time} isShown={isSunUp} isCyber={isCyberCity} />
 								{isSunUp ? (
 									<>
 										<directionalLight color={getColor(time)} position={getPos(time)} intensity={getLightParam(time)} />
